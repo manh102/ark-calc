@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:arklevelcalculator/screens/input_page.dart';
+import 'package:arklevelcalculator/screens/home_page.dart';
 
 void main() => runApp(ARKLevelCalculator());
 
@@ -21,7 +21,7 @@ class ARKLevelCalculator extends StatelessWidget {
           primaryColor: Color(0xFF0A0E21),
           scaffoldBackgroundColor: Color(0xFF0A0E21),
         ),
-        home: InputPage(),
+        home: HomePage(),
       ),
     );
   }
