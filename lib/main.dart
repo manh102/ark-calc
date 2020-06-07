@@ -1,0 +1,28 @@
+import 'package:flutter/material.dart';
+import 'package:arklevelcalculator/screens/input_page.dart';
+
+void main() => runApp(ARKLevelCalculator());
+
+class ARKLevelCalculator extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+
+        if (!currentFocus.hasPrimaryFocus &&
+            currentFocus.focusedChild != null) {
+          currentFocus.focusedChild.unfocus();
+        }
+      },
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData.dark().copyWith(
+          primaryColor: Color(0xFF0A0E21),
+          scaffoldBackgroundColor: Color(0xFF0A0E21),
+        ),
+        home: InputPage(),
+      ),
+    );
+  }
+}
