@@ -10,7 +10,8 @@ class ReusableDropdownButton extends StatefulWidget {
   _ReusableDropdownButtonState createState() => _ReusableDropdownButtonState();
   IntValue callback;
   var dropdownValues = <String>[];
-  ReusableDropdownButton(this.callback, {this.dropdownValues});
+  final Function onPress;
+  ReusableDropdownButton(this.callback, {this.dropdownValues, this.onPress});
 }
 
 class _ReusableDropdownButtonState extends State<ReusableDropdownButton> {
@@ -31,6 +32,7 @@ class _ReusableDropdownButtonState extends State<ReusableDropdownButton> {
             widget.callback(selectedIndex);
           });
         },
+        onTap: widget.onPress,
         items:
             widget.dropdownValues.map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(

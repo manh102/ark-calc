@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'package:arklevelcalculator/components/dialog.dart';
 import 'package:arklevelcalculator/components/reusable_drop_down_button.dart';
 import 'package:arklevelcalculator/models/character_exp_model.dart';
@@ -60,6 +61,14 @@ class _InputPageState extends State<InputPage> {
     evolveGoldCostModel = new EvolveGoldCostModel.fromJson(jsonResponse);
   }
 
+  Void unFocusTextfield(BuildContext context) {
+    FocusScopeNode currentFocus = FocusScope.of(context);
+
+    if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
+      currentFocus.focusedChild.unfocus();
+    }
+  }
+
   @protected
   @mustCallSuper
   void initState() {
@@ -75,290 +84,304 @@ class _InputPageState extends State<InputPage> {
           'ARKNIGHTS CALCULATOR',
         ),
       ),
-      body: ListView(
-        children: <Widget>[
-          // RARITY
-          ReusableCard(
-            title: rarity,
-            colour: kActiveCardColour,
-            cardChild: ReusableDropdownButton(
-              (rarityValue) {
-                charInfo.rarity = rarityValue;
-                print(rarityValue);
-              },
-              dropdownValues: [
-                '6',
-                '5',
-                '4',
-                '3',
-                '2',
-                '1',
+      body: GestureDetector(
+        onTap: () {
+          unFocusTextfield(context);
+        },
+        child: ListView(
+          children: <Widget>[
+            // RARITY
+            ReusableCard(
+              title: rarity,
+              colour: kActiveCardColour,
+              cardChild: ReusableDropdownButton(
+                (rarityValue) {
+                  charInfo.rarity = rarityValue;
+                  print(rarityValue);
+                },
+                dropdownValues: [
+                  '6',
+                  '5',
+                  '4',
+                  '3',
+                  '2',
+                  '1',
+                ],
+              ),
+            ),
+            // EXP CARD MAP
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: ReusableCard(
+                    title: expCardMap,
+                    colour: kActiveCardColour,
+                    cardChild: ReusableDropdownButton(
+                      (expCardMapVal) {
+                        charInfo.expCardMap = expCardMapVal;
+                        print(expCardMapVal);
+                      },
+                      dropdownValues: [
+                        'LS-5',
+                      ],
+                      onPress: () {
+                        unFocusTextfield(context);
+                      },
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: ReusableCard(
+                    title: lungmenCoinMap,
+                    colour: kActiveCardColour,
+                    cardChild: ReusableDropdownButton(
+                      (lungmenCoinMapVal) {
+                        charInfo.lungmenCoinMap = lungmenCoinMapVal;
+                        print(lungmenCoinMapVal);
+                      },
+                      dropdownValues: [
+                        'CE-5',
+                      ],
+                      onPress: () {
+                        unFocusTextfield(context);
+                      },
+                    ),
+                  ),
+                ),
               ],
             ),
-          ),
-          // EXP CARD MAP
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: ReusableCard(
-                  title: expCardMap,
-                  onPress: () {},
-                  colour: kActiveCardColour,
-                  cardChild: ReusableDropdownButton(
-                    (expCardMapVal) {
-                      charInfo.expCardMap = expCardMapVal;
-                      print(expCardMapVal);
-                    },
-                    dropdownValues: [
-                      'LS-5',
-                    ],
+            // CURRRENT ELITE
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: ReusableCard(
+                    title: currentElt,
+                    colour: kActiveCardColour,
+                    cardChild: ReusableDropdownButton(
+                      (currentEltVal) {
+                        charInfo.currentElite = currentEltVal;
+                        print(currentEltVal);
+                      },
+                      dropdownValues: [
+                        '0',
+                        '1',
+                        '2',
+                      ],
+                      onPress: () {
+                        unFocusTextfield(context);
+                      },
+                    ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: ReusableCard(
-                  title: lungmenCoinMap,
-                  onPress: () {},
-                  colour: kActiveCardColour,
-                  cardChild: ReusableDropdownButton(
-                    (lungmenCoinMapVal) {
-                      charInfo.lungmenCoinMap = lungmenCoinMapVal;
-                      print(lungmenCoinMapVal);
-                    },
-                    dropdownValues: [
-                      'CE-5',
-                    ],
+                Expanded(
+                  child: ReusableCard(
+                    title: targetElt,
+                    colour: kActiveCardColour,
+                    cardChild: ReusableDropdownButton(
+                      (targetEltVal) {
+                        charInfo.targetElite = targetEltVal;
+                        print(targetEltVal);
+                      },
+                      dropdownValues: [
+                        '0',
+                        '1',
+                        '2',
+                      ],
+                      onPress: () {
+                        unFocusTextfield(context);
+                      },
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          // CURRRENT ELITE
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: ReusableCard(
-                  title: currentElt,
-                  onPress: () {},
-                  colour: kActiveCardColour,
-                  cardChild: ReusableDropdownButton(
-                    (currentEltVal) {
-                      charInfo.currentElite = currentEltVal;
-                      print(currentEltVal);
-                    },
-                    dropdownValues: ['0', '1', '2'],
-                  ),
-                ),
-              ),
-              Expanded(
-                child: ReusableCard(
-                  title: targetElt,
-                  onPress: () {},
-                  colour: kActiveCardColour,
-                  cardChild: ReusableDropdownButton(
-                    (targetEltVal) {
-                      charInfo.targetElite = targetEltVal;
-                      print(targetEltVal);
-                    },
-                    dropdownValues: ['0', '1', '2'],
-                  ),
-                ),
-              ),
-            ],
-          ),
-          // CURRENT LEVEL
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: ReusableCard(
-                  title: currentLvl,
-                  onPress: () {},
-                  colour: kActiveCardColour,
-                  cardChild: EnhancedTextfield(
-                    (text) {
-                      charInfo.currentLevel = int.parse(text);
-                    },
-                    hintText: '1',
-                  ),
-                ),
-              ),
-              Expanded(
-                child: ReusableCard(
-                  title: targetLvl,
-                  onPress: () {},
-                  colour: kActiveCardColour,
-                  cardChild: EnhancedTextfield(
-                    (text) {
-                      charInfo.targetLevel = int.parse(text);
-                    },
-                    hintText: '1',
-                  ),
-                ),
-              ),
-            ],
-          ),
-          ReusableCard(
-            title: currentExp,
-            onPress: () {},
-            colour: kActiveCardColour,
-            cardChild: EnhancedTextfield(
-              (text) {
-                charInfo.currentExp = int.parse(text);
-              },
-              hintText: 'Enter your current exp',
+              ],
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 10.0),
-            child: Text(
-              'Resources currently have:',
-              style: kCategoryTextStyle,
+            // CURRENT LEVEL
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: ReusableCard(
+                    title: currentLvl,
+                    colour: kActiveCardColour,
+                    cardChild: EnhancedTextfield(
+                      (text) {
+                        charInfo.currentLevel = int.parse(text);
+                      },
+                      hintText: '1',
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: ReusableCard(
+                    title: targetLvl,
+                    colour: kActiveCardColour,
+                    cardChild: EnhancedTextfield(
+                      (text) {
+                        charInfo.targetLevel = int.parse(text);
+                      },
+                      hintText: '1',
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: ReusableCard(
-                  title: lmd,
-                  onPress: () {},
-                  colour: kActiveCardColour,
-                  cardChild: EnhancedTextfield(
-                    (text) {
-                      charInfo.lmd = int.parse(text);
-                    },
-                    hintText: '0',
+            ReusableCard(
+              title: currentExp,
+              colour: kActiveCardColour,
+              cardChild: EnhancedTextfield(
+                (text) {
+                  charInfo.currentExp = int.parse(text);
+                },
+                hintText: 'Enter your current exp',
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 10.0),
+              child: Text(
+                'Resources currently have:',
+                style: kCategoryTextStyle,
+              ),
+            ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: ReusableCard(
+                    title: lmd,
+                    colour: kActiveCardColour,
+                    cardChild: EnhancedTextfield(
+                      (text) {
+                        charInfo.lmd = int.parse(text);
+                      },
+                      hintText: '0',
+                    ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: ReusableCard(
-                  title: greenExpCard,
-                  onPress: () {},
-                  colour: kActiveCardColour,
-                  cardChild: EnhancedTextfield(
-                    (text) {
-                      charInfo.greenCard = int.parse(text);
-                    },
-                    hintText: '0',
+                Expanded(
+                  child: ReusableCard(
+                    title: greenExpCard,
+                    colour: kActiveCardColour,
+                    cardChild: EnhancedTextfield(
+                      (text) {
+                        charInfo.greenCard = int.parse(text);
+                      },
+                      hintText: '0',
+                    ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: ReusableCard(
-                  title: blueExpCard,
-                  onPress: () {},
-                  colour: kActiveCardColour,
-                  cardChild: EnhancedTextfield(
-                    (text) {
-                      charInfo.blueCard = int.parse(text);
-                    },
-                    hintText: '0',
+                Expanded(
+                  child: ReusableCard(
+                    title: blueExpCard,
+                    colour: kActiveCardColour,
+                    cardChild: EnhancedTextfield(
+                      (text) {
+                        charInfo.blueCard = int.parse(text);
+                      },
+                      hintText: '0',
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: ReusableCard(
-                  title: yellowExpCard,
-                  onPress: () {},
-                  colour: kActiveCardColour,
-                  cardChild: EnhancedTextfield(
-                    (text) {
-                      charInfo.yellowCard = int.parse(text);
-                    },
-                    hintText: '0',
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: ReusableCard(
+                    title: yellowExpCard,
+                    colour: kActiveCardColour,
+                    cardChild: EnhancedTextfield(
+                      (text) {
+                        charInfo.yellowCard = int.parse(text);
+                      },
+                      hintText: '0',
+                    ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: ReusableCard(
-                  title: goldExpCard,
-                  onPress: () {},
-                  colour: kActiveCardColour,
-                  cardChild: EnhancedTextfield(
-                    (text) {
-                      charInfo.goldCard = int.parse(text);
-                    },
-                    hintText: '0',
+                Expanded(
+                  child: ReusableCard(
+                    title: goldExpCard,
+                    colour: kActiveCardColour,
+                    cardChild: EnhancedTextfield(
+                      (text) {
+                        charInfo.goldCard = int.parse(text);
+                      },
+                      hintText: '0',
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          BottomButton(
-            buttonTitle: 'CALCULATE',
-            onTap: () {
-              // Calculate
-              LevelCalculate calc = LevelCalculate(
-                charInfo: charInfo,
-                characterExpModel: characterExpModel,
-                maxLevelModel: maxLevelModel,
-                upgradeCostMapModel: upgradeCostMapModel,
-                evolveGoldCostModel: evolveGoldCostModel,
-              );
+              ],
+            ),
+            BottomButton(
+              buttonTitle: 'CALCULATE',
+              onTap: () {
+                // Calculate
+                LevelCalculate calc = LevelCalculate(
+                  charInfo: charInfo,
+                  characterExpModel: characterExpModel,
+                  maxLevelModel: maxLevelModel,
+                  upgradeCostMapModel: upgradeCostMapModel,
+                  evolveGoldCostModel: evolveGoldCostModel,
+                );
 
-              switch (calc.inputValidate()) {
-                case ARKError.None:
-                  {
-                    ResultModel result = calc.calculateExp();
+                switch (calc.inputValidate()) {
+                  case ARKError.None:
+                    {
+                      ResultModel result = calc.calculateExp();
 
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ResultsPage(
-                          result: result,
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ResultsPage(
+                            result: result,
+                          ),
                         ),
-                      ),
-                    );
-                  }
-                  break;
+                      );
+                    }
+                    break;
 
-                case ARKError.LevelMustBeANumber:
-                  {
-                    MyDialog().showMyDialog(context, kLevelMustBeANumber);
-                  }
-                  break;
+                  case ARKError.LevelMustBeANumber:
+                    {
+                      MyDialog().showMyDialog(context, kLevelMustBeANumber);
+                    }
+                    break;
 
-                case ARKError.TextfieldInputMustBeANumber:
-                  {
-                    MyDialog()
-                        .showMyDialog(context, kInputFromTextfieldIsNotNumber);
-                  }
-                  break;
+                  case ARKError.TextfieldInputMustBeANumber:
+                    {
+                      MyDialog().showMyDialog(
+                          context, kInputFromTextfieldIsNotNumber);
+                    }
+                    break;
 
-                case ARKError.TargetLevelError:
-                  {
-                    MyDialog().showMyDialog(context, kTargetLevelCannotBeLower);
-                  }
-                  break;
+                  case ARKError.TargetLevelError:
+                    {
+                      MyDialog()
+                          .showMyDialog(context, kTargetLevelCannotBeLower);
+                    }
+                    break;
 
-                case ARKError.LevelOutOfRange:
-                  {
-                    MyDialog().showMyDialog(context, kLevelOutOfRange);
-                  }
-                  break;
+                  case ARKError.LevelOutOfRange:
+                    {
+                      MyDialog().showMyDialog(context, kLevelOutOfRange);
+                    }
+                    break;
 
-                case ARKError.ExpMustBeANumber:
-                  {
-                    MyDialog().showMyDialog(context, kExpMustBeANumber);
-                  }
-                  break;
+                  case ARKError.ExpMustBeANumber:
+                    {
+                      MyDialog().showMyDialog(context, kExpMustBeANumber);
+                    }
+                    break;
 
-                case ARKError.ExpOutOfRange:
-                  {
-                    MyDialog().showMyDialog(context, kExpOutOfRange);
-                  }
-                  break;
+                  case ARKError.ExpOutOfRange:
+                    {
+                      MyDialog().showMyDialog(context, kExpOutOfRange);
+                    }
+                    break;
 
-                default:
-                  break;
-              }
-            },
-          ),
-        ],
+                  default:
+                    break;
+                }
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
