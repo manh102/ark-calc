@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:arklevelcalculator/constants.dart';
 import 'package:arklevelcalculator/models/character_exp_model.dart';
 import 'package:arklevelcalculator/models/max_level_model.dart';
 import 'package:arklevelcalculator/models/result_model.dart';
@@ -13,30 +14,82 @@ class LevelCalculate {
   final MaxLevelModel maxLevelModel;
   final UpgradeCostMapModel upgradeCostMapModel; // LMD cost for each level
   final EvolveGoldCostModel evolveGoldCostModel;
+
+  int star = 0;
+  int cev = 0;
+  int cl = 0;
+  int ce = 0;
+  int te = 0;
+  int tl = 0;
+  int ga = 0;
+  int bb = 0;
+  int bp = 0;
+  int bm = 0;
+  int ba = 0;
+
+  int es = 0;
+  num cs = 0;
+  num ea = 0;
+
   LevelCalculate(
       {@required this.charInfo,
       @required this.characterExpModel,
       @required this.maxLevelModel,
       @required this.upgradeCostMapModel,
-      @required this.evolveGoldCostModel});
+      @required this.evolveGoldCostModel}) {
+    star = 5 - charInfo.rarity;
+    cev = charInfo.currentElite;
+    cl = charInfo.currentLevel;
+    ce = charInfo.currentExp;
+    te = charInfo.targetElite;
+    tl = charInfo.targetLevel;
+    ga = charInfo.lmd;
+    bb = charInfo.greenCard;
+    bp = charInfo.blueCard;
+    bm = charInfo.yellowCard;
+    ba = charInfo.goldCard;
+  }
+
+  ARKError inputValidate() {
+    ARKError result = ARKError.None;
+
+    // 1.レベル確認
+    if (!(cl is int) || !(tl is int)) {
+      result = ARKError.LevelMustBeANumber;
+    }
+    // 2.テキストフィールドの入力を確認
+    if (!(ga is int) ||
+        !(bb is int) ||
+        !(bp is int) ||
+        !(bm is int) ||
+        !(ba is int)) {
+      result = ARKError.TextfieldInputMustBeANumber;
+    }
+    // 3.現在レベル目指すレベルを確認
+    if ((te < cev) || (te == cev && tl < cl)) {
+      result = ARKError.TargetLevelError;
+    }
+    // 4.レベル範囲の確認  cl > maxLevel[star - 1][cev] || tl > maxLevel[star - 1][te]
+    if ((cl > maxLevelModel.maxLevel[star].levelMax[cev]) ||
+        (tl > maxLevelModel.maxLevel[star].levelMax[te])) {
+      result = ARKError.LevelOutOfRange;
+    }
+    // 5.入力したExpを確認
+    if (!(ce is int) || (ce < 0)) {
+      result = ARKError.ExpMustBeANumber;
+    }
+    // 6.Exp範囲を確認
+    if ((cl == maxLevelModel.maxLevel[star].levelMax[cev] && ce != 0) ||
+        (cl != maxLevelModel.maxLevel[star].levelMax[cev] &&
+            ce >= characterExpModel.tierlist[cev].exp[cl - 1])) {
+      result = ARKError.ExpOutOfRange;
+    }
+
+    print('Validate result: $result');
+    return result;
+  }
 
   ResultModel calculateExp() {
-    int star = 5 - charInfo.rarity;
-    int cev = charInfo.currentElite;
-    int cl = charInfo.currentLevel;
-    int ce = charInfo.currentExp;
-    int te = charInfo.targetElite;
-    int tl = charInfo.targetLevel;
-    int ga = charInfo.lmd;
-    int bb = charInfo.greenCard;
-    int bp = charInfo.blueCard;
-    int bm = charInfo.yellowCard;
-    int ba = charInfo.goldCard;
-
-    int es = 0;
-    num cs = 0;
-    num ea = 0;
-
     // check if current level is max level
     if (charInfo.currentLevel ==
         maxLevelModel

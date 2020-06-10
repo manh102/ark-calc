@@ -1,11 +1,13 @@
 import 'dart:convert';
-
+import 'package:arklevelcalculator/components/dialog.dart';
 import 'package:arklevelcalculator/components/reusable_drop_down_button.dart';
 import 'package:arklevelcalculator/models/character_exp_model.dart';
 import 'package:arklevelcalculator/models/character_info_model.dart';
 import 'package:arklevelcalculator/models/evolve_gold_cost_model.dart';
 import 'package:arklevelcalculator/models/max_level_model.dart';
+import 'package:arklevelcalculator/models/result_model.dart';
 import 'package:arklevelcalculator/models/upgrade_cost_map_model.dart';
+import 'package:arklevelcalculator/screens/result_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:arklevelcalculator/components/reusable_card.dart';
@@ -13,6 +15,7 @@ import 'package:arklevelcalculator/constants.dart';
 import 'package:flutter/services.dart';
 import 'package:arklevelcalculator/components/bottom_button.dart';
 import 'package:arklevelcalculator/components/enhanced_textfield.dart';
+import 'package:arklevelcalculator/level_calculate.dart';
 
 class InputPage extends StatefulWidget {
   @override
@@ -35,7 +38,6 @@ class _InputPageState extends State<InputPage> {
   String goldExpCard = 'Gold Card';
 
   CharacterInfoModel charInfo = CharacterInfoModel();
-  final textfieldController = TextEditingController();
 
   // Exp each level of each tier
   CharacterExpModel characterExpModel;
@@ -56,34 +58,6 @@ class _InputPageState extends State<InputPage> {
     maxLevelModel = new MaxLevelModel.fromJson(jsonResponse);
     upgradeCostMapModel = new UpgradeCostMapModel.fromJson(jsonResponse);
     evolveGoldCostModel = new EvolveGoldCostModel.fromJson(jsonResponse);
-  }
-
-  Future<void> _showMyDialog() async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Alert'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text('This is a demo alert dialog.'),
-                Text('Would you like to approve of this message?'),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            FlatButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 
   @protected
@@ -204,7 +178,7 @@ class _InputPageState extends State<InputPage> {
                     (text) {
                       charInfo.currentLevel = int.parse(text);
                     },
-                    hintText: '0',
+                    hintText: '1',
                   ),
                 ),
               ),
@@ -217,7 +191,7 @@ class _InputPageState extends State<InputPage> {
                     (text) {
                       charInfo.targetLevel = int.parse(text);
                     },
-                    hintText: '0',
+                    hintText: '1',
                   ),
                 ),
               ),
@@ -317,25 +291,71 @@ class _InputPageState extends State<InputPage> {
           BottomButton(
             buttonTitle: 'CALCULATE',
             onTap: () {
-              _showMyDialog();
-              // // Calculate
-              // LevelCalculate calc = LevelCalculate(
-              //   charInfo: charInfo,
-              //   characterExpModel: characterExpModel,
-              //   maxLevelModel: maxLevelModel,
-              //   upgradeCostMapModel: upgradeCostMapModel,
-              //   evolveGoldCostModel: evolveGoldCostModel,
-              // );
-              // ResultModel result = calc.calculateExp();
+              // Calculate
+              LevelCalculate calc = LevelCalculate(
+                charInfo: charInfo,
+                characterExpModel: characterExpModel,
+                maxLevelModel: maxLevelModel,
+                upgradeCostMapModel: upgradeCostMapModel,
+                evolveGoldCostModel: evolveGoldCostModel,
+              );
 
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => ResultsPage(
-              //       result: result,
-              //     ),
-              //   ),
-              // );
+              switch (calc.inputValidate()) {
+                case ARKError.None:
+                  {
+                    ResultModel result = calc.calculateExp();
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ResultsPage(
+                          result: result,
+                        ),
+                      ),
+                    );
+                  }
+                  break;
+
+                case ARKError.LevelMustBeANumber:
+                  {
+                    MyDialog().showMyDialog(context, kLevelMustBeANumber);
+                  }
+                  break;
+
+                case ARKError.TextfieldInputMustBeANumber:
+                  {
+                    MyDialog()
+                        .showMyDialog(context, kInputFromTextfieldIsNotNumber);
+                  }
+                  break;
+
+                case ARKError.TargetLevelError:
+                  {
+                    MyDialog().showMyDialog(context, kTargetLevelCannotBeLower);
+                  }
+                  break;
+
+                case ARKError.LevelOutOfRange:
+                  {
+                    MyDialog().showMyDialog(context, kLevelOutOfRange);
+                  }
+                  break;
+
+                case ARKError.ExpMustBeANumber:
+                  {
+                    MyDialog().showMyDialog(context, kExpMustBeANumber);
+                  }
+                  break;
+
+                case ARKError.ExpOutOfRange:
+                  {
+                    MyDialog().showMyDialog(context, kExpOutOfRange);
+                  }
+                  break;
+
+                default:
+                  break;
+              }
             },
           ),
         ],

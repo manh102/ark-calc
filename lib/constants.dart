@@ -48,3 +48,23 @@ const kResultTextStyle = TextStyle(
   fontSize: 22.0,
   fontWeight: FontWeight.bold,
 );
+
+const kLevelMustBeANumber = 'The rating must be a number from 1 to 90.';
+const kInputFromTextfieldIsNotNumber =
+    'The input for gold coins/experience books available can only be numbers.';
+const kTargetLevelCannotBeLower =
+    'The target level cannot be lower than or equal to the current level.';
+const kLevelOutOfRange = 'The level is beyond the scope of the elite stage.';
+const kExpMustBeANumber = 'Current experience must be a positive integer.';
+const kExpOutOfRange =
+    'The current experience is outside the possible range, please check the input.';
+
+enum ARKError {
+  None,
+  LevelMustBeANumber,
+  TextfieldInputMustBeANumber,
+  TargetLevelError,
+  LevelOutOfRange,
+  ExpMustBeANumber,
+  ExpOutOfRange
+}
