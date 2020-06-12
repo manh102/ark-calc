@@ -1,4 +1,5 @@
 import 'package:arklevelcalculator/screens/input_page.dart';
+import 'package:arklevelcalculator/screens/recruit_page.dart';
 import 'package:flutter/material.dart';
 import 'package:arklevelcalculator/constants.dart';
 import 'package:arklevelcalculator/components/reusabke_square_card.dart';
@@ -61,6 +62,12 @@ class _HomePageState extends State<HomePage> {
                     onPress: () {
                       setState(() {
                         selectedGender = Category.female;
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => RecruitPage(),
+                          ),
+                        );
                       });
                     },
                     colour: selectedGender == Category.female

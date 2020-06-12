@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:arklevelcalculator/constants.dart';
 import 'package:arklevelcalculator/components/result_row.dart';
 
-
 class ResultsPage extends StatelessWidget {
   ResultsPage({
     @required this.result,
@@ -69,7 +68,7 @@ class ResultsPage extends StatelessWidget {
             ),
             ResultRow(
               leftTitle: 'CE Sanity Cost',
-              rightTitle: result.lsSanityCost.toString(),
+              rightTitle: result.ceSanityCost.toString(),
             ),
             ResultRow(
               leftTitle: 'Coins for Leveling	',

@@ -68,3 +68,9 @@ enum ARKError {
   ExpMustBeANumber,
   ExpOutOfRange
 }
+
+// Recruit Page
+const kRecruitTitle = TextStyle(
+  fontSize: 15.0,
+  color: Color(0xFF8D8E98),
+);
