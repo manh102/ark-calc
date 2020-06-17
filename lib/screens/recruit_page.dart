@@ -1,7 +1,8 @@
 import 'dart:math';
-
 import 'package:arklevelcalculator/Repositories/cake_repository.dart';
 import 'package:arklevelcalculator/entities/cake.dart';
+import 'package:arklevelcalculator/Repositories/operator_repository.dart';
+import 'package:arklevelcalculator/entities/operator.dart';
 import 'package:arklevelcalculator/recruit_calculate.dart';
 import 'package:arklevelcalculator/screens/input_page.dart';
 import 'package:flutter/material.dart';
@@ -400,5 +401,40 @@ class _RecruitPage extends State<RecruitPage> {
     final newCake = Cake(name: name, yummyness: yummyness);
     await _cakeRepository.insertCake(newCake);
     _loadCakes();
+  }
+
+  _addOperators() async {
+    final list = ["apple", "orange", "chocolate"];
+    final newOperator = Operator(
+      name: "Texas",
+      starter: false,
+      seniorOperator: false,
+      topOperator: false,
+      melee: false,
+      ranged: false,
+      guard: false,
+      medic: false,
+      vanguard: false,
+      caster: false,
+      sniper: false,
+      defender: false,
+      supporter: false,
+      specialist: false,
+      healing: false,
+      support: false,
+      dPS: false,
+      aOE: false,
+      slow: false,
+      survival: false,
+      defense: false,
+      debuff: false,
+      shift: false,
+      crowdControl: false,
+      nuker: false,
+      summon: false,
+      fastRedeploy: false,
+      dPRecovery: false,
+      robot: false,
+    );
   }
 }
