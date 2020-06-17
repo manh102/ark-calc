@@ -69,6 +69,37 @@ enum ARKError {
   ExpOutOfRange
 }
 
+enum RecruitTag {
+  Starter,
+  SeniorOperator,
+  TopOperator,
+  Melee,
+  Ranged,
+  Guard,
+  Medic,
+  Vanguard,
+  Caster,
+  Sniper,
+  Defender,
+  Supporter,
+  Specialist,
+  Healing,
+  Support,
+  DPS,
+  AOE,
+  Slow,
+  Survival,
+  Defense,
+  Debuff,
+  Shift,
+  CrowdControl,
+  Nuker,
+  Summon,
+  FastRedeploy,
+  DPRecovery,
+  Robot,
+}
+
 // Recruit Page
 const kRecruitTitle = TextStyle(
   fontSize: 15.0,
