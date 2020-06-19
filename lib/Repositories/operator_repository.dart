@@ -1,11 +1,11 @@
 import 'package:arklevelcalculator/entities/operator.dart';
 
 abstract class OperatorRepository {
-  Future<int> insertCake(Operator operator);
+  Future<int> insertOperator(Operator operator);
 
-  Future updateCake(Operator operator);
+  Future updateOperator(Operator operator);
 
-  Future deleteCake(int operatorId);
+  Future deleteOperator(int operatorId);
 
   Future<List<Operator>> getAllOperators();
 }

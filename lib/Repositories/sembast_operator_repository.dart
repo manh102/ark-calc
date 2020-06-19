@@ -1,4 +1,3 @@
-import 'package:arklevelcalculator/Repositories/operator_repository.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sembast/sembast.dart';
 import 'package:arklevelcalculator/entities/operator.dart';
@@ -9,17 +8,17 @@ class SembastOperatorRepository extends OperatorRepository {
   final StoreRef _list = intMapStoreFactory.store("operator_list");
 
   @override
-  Future<int> insertCake(Operator operator) async {
+  Future<int> insertOperator(Operator operator) async {
     return await _list.add(_database, operator.toMap());
   }
 
   @override
-  Future updateCake(Operator operator) async {
+  Future updateOperator(Operator operator) async {
     await _list.record(operator.id).update(_database, operator.toMap());
   }
 
   @override
-  Future deleteCake(int operatorId) async {
+  Future deleteOperator(int operatorId) async {
     await _list.record(operatorId).delete(_database);
   }
 

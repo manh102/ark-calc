@@ -1,34 +1,34 @@
 class Operator {
-  final int id;
-  final String name;
-  final bool starter;
-  final bool seniorOperator;
-  final bool topOperator;
-  final bool melee;
-  final bool ranged;
-  final bool guard;
-  final bool medic;
-  final bool vanguard;
-  final bool caster;
-  final bool sniper;
-  final bool defender;
-  final bool supporter;
-  final bool specialist;
-  final bool healing;
-  final bool support;
-  final bool dPS;
-  final bool aOE;
-  final bool slow;
-  final bool survival;
-  final bool defense;
-  final bool debuff;
-  final bool shift;
-  final bool crowdControl;
-  final bool nuker;
-  final bool summon;
-  final bool fastRedeploy;
-  final bool dPRecovery;
-  final bool robot;
+  int id;
+  String name;
+  bool starter;
+  bool seniorOperator;
+  bool topOperator;
+  bool melee;
+  bool ranged;
+  bool guard;
+  bool medic;
+  bool vanguard;
+  bool caster;
+  bool sniper;
+  bool defender;
+  bool supporter;
+  bool specialist;
+  bool healing;
+  bool support;
+  bool dPS;
+  bool aOE;
+  bool slow;
+  bool survival;
+  bool defense;
+  bool debuff;
+  bool shift;
+  bool crowdControl;
+  bool nuker;
+  bool summon;
+  bool fastRedeploy;
+  bool dPRecovery;
+  bool robot;
 
   Operator({
     this.id,
@@ -62,6 +62,187 @@ class Operator {
     this.dPRecovery,
     this.robot,
   });
+
+  Operator convertOperator(String name, List<int> attributes) {
+    var newOperator = Operator(
+      name: name,
+      starter: false,
+      seniorOperator: false,
+      topOperator: false,
+      melee: false,
+      ranged: false,
+      guard: false,
+      medic: false,
+      vanguard: false,
+      caster: false,
+      sniper: false,
+      defender: false,
+      supporter: false,
+      specialist: false,
+      healing: false,
+      support: false,
+      dPS: false,
+      aOE: false,
+      slow: false,
+      survival: false,
+      defense: false,
+      debuff: false,
+      shift: false,
+      crowdControl: false,
+      nuker: false,
+      summon: false,
+      fastRedeploy: false,
+      dPRecovery: false,
+      robot: false,
+    );
+    for (var attribute in attributes) {
+      switch (attribute) {
+        case 0:
+          {
+            newOperator.starter = true;
+          }
+          break;
+        case 1:
+          {
+            newOperator.seniorOperator = true;
+          }
+          break;
+        case 2:
+          {
+            newOperator.topOperator = true;
+          }
+          break;
+        case 3:
+          {
+            newOperator.melee = true;
+          }
+          break;
+        case 4:
+          {
+            newOperator.ranged = true;
+          }
+          break;
+        case 5:
+          {
+            newOperator.guard = true;
+          }
+          break;
+        case 6:
+          {
+            newOperator.medic = true;
+          }
+          break;
+        case 7:
+          {
+            newOperator.vanguard = true;
+          }
+          break;
+        case 8:
+          {
+            newOperator.caster = true;
+          }
+          break;
+        case 9:
+          {
+            newOperator.sniper = true;
+          }
+          break;
+        case 10:
+          {
+            newOperator.defender = true;
+          }
+          break;
+        case 11:
+          {
+            newOperator.supporter = true;
+          }
+          break;
+        case 12:
+          {
+            newOperator.specialist = true;
+          }
+          break;
+        case 13:
+          {
+            newOperator.healing = true;
+          }
+          break;
+        case 14:
+          {
+            newOperator.support = true;
+          }
+          break;
+        case 15:
+          {
+            newOperator.dPS = true;
+          }
+          break;
+        case 16:
+          {
+            newOperator.aOE = true;
+          }
+          break;
+        case 17:
+          {
+            newOperator.slow = true;
+          }
+          break;
+        case 18:
+          {
+            newOperator.survival = true;
+          }
+          break;
+        case 19:
+          {
+            newOperator.defense = true;
+          }
+          break;
+        case 20:
+          {
+            newOperator.debuff = true;
+          }
+          break;
+        case 21:
+          {
+            newOperator.shift = true;
+          }
+          break;
+        case 22:
+          {
+            newOperator.crowdControl = true;
+          }
+          break;
+        case 23:
+          {
+            newOperator.nuker = true;
+          }
+          break;
+        case 24:
+          {
+            newOperator.summon = true;
+          }
+          break;
+        case 25:
+          {
+            newOperator.fastRedeploy = true;
+          }
+          break;
+        case 26:
+          {
+            newOperator.dPRecovery = true;
+          }
+          break;
+        case 27:
+          {
+            newOperator.robot = true;
+          }
+          break;
+        default:
+          break;
+      }
+      return newOperator;
+    }
+  }
 
   Map<String, dynamic> toMap() {
     return {

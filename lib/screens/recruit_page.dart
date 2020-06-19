@@ -1,6 +1,5 @@
 import 'dart:math';
-import 'package:arklevelcalculator/Repositories/cake_repository.dart';
-import 'package:arklevelcalculator/entities/cake.dart';
+import 'package:arklevelcalculator/Repositories/operator_repository.dart';
 import 'package:arklevelcalculator/Repositories/operator_repository.dart';
 import 'package:arklevelcalculator/entities/operator.dart';
 import 'package:arklevelcalculator/recruit_calculate.dart';
@@ -19,7 +18,7 @@ class RecruitPage extends StatefulWidget {
 }
 
 class _RecruitPage extends State<RecruitPage> {
-  CakeRepository _cakeRepository = GetIt.I.get();
+  OperatorRepository _operatorRepository = GetIt.I.get();
 
   @override
   Widget build(BuildContext context) {
@@ -288,12 +287,12 @@ class _RecruitPage extends State<RecruitPage> {
                           onPressed: () {
                             print('Tapped on Robot Button');
 
-                            _addCake();
+                            _loadOperators();
 
                             // TEST
-                            RecruitCalculate calc =
-                                RecruitCalculate(tags: [RecruitTag.Robot]);
-                            print(calc.getPossibleNames()[1]);
+//                            RecruitCalculate calc =
+//                                RecruitCalculate(tags: [RecruitTag.Robot]);
+//                            print(calc.getPossibleNames()[1]);
                           },
                         ),
                       ],
@@ -388,53 +387,12 @@ class _RecruitPage extends State<RecruitPage> {
     );
   }
 
-  _loadCakes() async {
-    final cakes = await _cakeRepository.getAllCakes();
-    print('loaded');
-    print(cakes[0].name);
-  }
-
-  _addCake() async {
-    final list = ["apple", "orange", "chocolate"]..shuffle();
-    final name = "My yummy ${list.first} cake";
-    final yummyness = Random().nextInt(10);
-    final newCake = Cake(name: name, yummyness: yummyness);
-    await _cakeRepository.insertCake(newCake);
-    _loadCakes();
-  }
-
-  _addOperators() async {
-    final list = ["apple", "orange", "chocolate"];
-    final newOperator = Operator(
-      name: "Texas",
-      starter: false,
-      seniorOperator: false,
-      topOperator: false,
-      melee: false,
-      ranged: false,
-      guard: false,
-      medic: false,
-      vanguard: false,
-      caster: false,
-      sniper: false,
-      defender: false,
-      supporter: false,
-      specialist: false,
-      healing: false,
-      support: false,
-      dPS: false,
-      aOE: false,
-      slow: false,
-      survival: false,
-      defense: false,
-      debuff: false,
-      shift: false,
-      crowdControl: false,
-      nuker: false,
-      summon: false,
-      fastRedeploy: false,
-      dPRecovery: false,
-      robot: false,
-    );
+  _loadOperators() async {
+    final operators = await _operatorRepository.getAllOperators();
+    print('OP loaded');
+    print(operators[0].name);
+    print(operators[1].name);
+    print(operators[2].name);
+    print(operators[3].name);
   }
 }
