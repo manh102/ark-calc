@@ -96,152 +96,67 @@ class Operator {
       robot: false,
     );
     for (var attribute in attributes) {
-      switch (attribute) {
-        case 0:
-          {
-            newOperator.starter = true;
-          }
-          break;
-        case 1:
-          {
-            newOperator.seniorOperator = true;
-          }
-          break;
-        case 2:
-          {
-            newOperator.topOperator = true;
-          }
-          break;
-        case 3:
-          {
-            newOperator.melee = true;
-          }
-          break;
-        case 4:
-          {
-            newOperator.ranged = true;
-          }
-          break;
-        case 5:
-          {
-            newOperator.guard = true;
-          }
-          break;
-        case 6:
-          {
-            newOperator.medic = true;
-          }
-          break;
-        case 7:
-          {
-            newOperator.vanguard = true;
-          }
-          break;
-        case 8:
-          {
-            newOperator.caster = true;
-          }
-          break;
-        case 9:
-          {
-            newOperator.sniper = true;
-          }
-          break;
-        case 10:
-          {
-            newOperator.defender = true;
-          }
-          break;
-        case 11:
-          {
-            newOperator.supporter = true;
-          }
-          break;
-        case 12:
-          {
-            newOperator.specialist = true;
-          }
-          break;
-        case 13:
-          {
-            newOperator.healing = true;
-          }
-          break;
-        case 14:
-          {
-            newOperator.support = true;
-          }
-          break;
-        case 15:
-          {
-            newOperator.dPS = true;
-          }
-          break;
-        case 16:
-          {
-            newOperator.aOE = true;
-          }
-          break;
-        case 17:
-          {
-            newOperator.slow = true;
-          }
-          break;
-        case 18:
-          {
-            newOperator.survival = true;
-          }
-          break;
-        case 19:
-          {
-            newOperator.defense = true;
-          }
-          break;
-        case 20:
-          {
-            newOperator.debuff = true;
-          }
-          break;
-        case 21:
-          {
-            newOperator.shift = true;
-          }
-          break;
-        case 22:
-          {
-            newOperator.crowdControl = true;
-          }
-          break;
-        case 23:
-          {
-            newOperator.nuker = true;
-          }
-          break;
-        case 24:
-          {
-            newOperator.summon = true;
-          }
-          break;
-        case 25:
-          {
-            newOperator.fastRedeploy = true;
-          }
-          break;
-        case 26:
-          {
-            newOperator.dPRecovery = true;
-          }
-          break;
-        case 27:
-          {
-            newOperator.robot = true;
-          }
-          break;
-        default:
-          break;
+      if (attribute == 0) {
+        newOperator.starter = true;
+      } else if (attribute == 1) {
+        newOperator.seniorOperator = true;
+      } else if (attribute == 1) {
+        newOperator.seniorOperator = true;
+      } else if (attribute == 2) {
+        newOperator.topOperator = true;
+      } else if (attribute == 3) {
+        newOperator.melee = true;
+      } else if (attribute == 4) {
+        newOperator.ranged = true;
+      } else if (attribute == 5) {
+        newOperator.guard = true;
+      } else if (attribute == 6) {
+        newOperator.medic = true;
+      } else if (attribute == 7) {
+        newOperator.vanguard = true;
+      } else if (attribute == 8) {
+        newOperator.caster = true;
+      } else if (attribute == 9) {
+        newOperator.sniper = true;
+      } else if (attribute == 10) {
+        newOperator.defender = true;
+      } else if (attribute == 11) {
+        newOperator.supporter = true;
+      } else if (attribute == 12) {
+        newOperator.specialist = true;
+      } else if (attribute == 13) {
+        newOperator.healing = true;
+      } else if (attribute == 14) {
+        newOperator.support = true;
+      } else if (attribute == 15) {
+        newOperator.dPS = true;
+      } else if (attribute == 16) {
+        newOperator.aOE = true;
+      } else if (attribute == 17) {
+        newOperator.slow = true;
+      } else if (attribute == 18) {
+        newOperator.survival = true;
+      } else if (attribute == 19) {
+        newOperator.defense = true;
+      } else if (attribute == 20) {
+        newOperator.debuff = true;
+      } else if (attribute == 21) {
+        newOperator.shift = true;
+      } else if (attribute == 22) {
+        newOperator.crowdControl = true;
+      } else if (attribute == 23) {
+        newOperator.nuker = true;
+      } else if (attribute == 24) {
+        newOperator.summon = true;
+      } else if (attribute == 25) {
+        newOperator.fastRedeploy = true;
+      } else if (attribute == 26) {
+        newOperator.dPRecovery = true;
+      } else if (attribute == 27) {
+        newOperator.robot = true;
       }
-      return newOperator;
     }
+    return newOperator;
   }
 
   Map<String, dynamic> toMap() {

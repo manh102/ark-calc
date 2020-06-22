@@ -1,15 +1,7 @@
-import 'dart:math';
 import 'package:arklevelcalculator/Repositories/operator_repository.dart';
-import 'package:arklevelcalculator/Repositories/operator_repository.dart';
-import 'package:arklevelcalculator/entities/operator.dart';
-import 'package:arklevelcalculator/recruit_calculate.dart';
-import 'package:arklevelcalculator/screens/input_page.dart';
+import 'package:arklevelcalculator/components/chart_button.dart';
 import 'package:flutter/material.dart';
 import 'package:arklevelcalculator/constants.dart';
-import 'package:arklevelcalculator/components/reusabke_square_card.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:arklevelcalculator/components/icon_content.dart';
-import 'package:arklevelcalculator/components/chart_button.dart';
 import 'package:get_it/get_it.dart';
 
 class RecruitPage extends StatefulWidget {
@@ -19,6 +11,7 @@ class RecruitPage extends StatefulWidget {
 
 class _RecruitPage extends State<RecruitPage> {
   OperatorRepository _operatorRepository = GetIt.I.get();
+  List<String> listOperators = ["Texas"];
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +57,7 @@ class _RecruitPage extends State<RecruitPage> {
                           child: const Text('Senior Operator'),
                           onPressed: () {
                             print('Tapped on Senior Operator Button');
+                            _searchOperators(["seniorOperator"]);
                           },
                         ),
                         RaisedButton(
@@ -98,6 +92,7 @@ class _RecruitPage extends State<RecruitPage> {
                           child: const Text('Melee'),
                           onPressed: () {
                             print('Tapped on Melee Button');
+                            _searchOperators(["melee"]);
                           },
                         ),
                         RaisedButton(
@@ -280,19 +275,14 @@ class _RecruitPage extends State<RecruitPage> {
                           child: const Text('DP-Recovery'),
                           onPressed: () {
                             print('Tapped on DP-Recovery Button');
+                            _searchOperators(["dPRecovery"]);
                           },
                         ),
                         RaisedButton(
                           child: const Text('Robot'),
                           onPressed: () {
                             print('Tapped on Robot Button');
-
-                            _loadOperators();
-
-                            // TEST
-//                            RecruitCalculate calc =
-//                                RecruitCalculate(tags: [RecruitTag.Robot]);
-//                            print(calc.getPossibleNames()[1]);
+                            _searchOperators(["robot"]);
                           },
                         ),
                       ],
@@ -366,15 +356,10 @@ class _RecruitPage extends State<RecruitPage> {
                     child: Wrap(
                       spacing: 1.0,
                       children: <Widget>[
-                        CharButton(
-                          characterName: 'Siege',
-                        ),
-                        CharButton(
-                          characterName: 'Texas',
-                        ),
-                        CharButton(
-                          characterName: 'Shining',
-                        ),
+                        for (final name in listOperators)
+                          CharButton(
+                            characterName: name,
+                          )
                       ],
                     ),
                   ),
@@ -387,12 +372,20 @@ class _RecruitPage extends State<RecruitPage> {
     );
   }
 
-  _loadOperators() async {
-    final operators = await _operatorRepository.getAllOperators();
-    print('OP loaded');
-    print(operators[0].name);
-    print(operators[1].name);
-    print(operators[2].name);
-    print(operators[3].name);
+  _searchOperators(List<String> tagList) async {
+    List<String> result = [];
+    print('get OP by tag');
+
+    for (final tag in tagList) {
+      final operators = await _operatorRepository.getOperatorsByTag(tag);
+      for (final operator in operators) {
+        result.add(operator.name);
+      }
+    }
+    print(listOperators);
+
+    setState(() {
+      listOperators = result;
+    });
   }
 }

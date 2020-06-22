@@ -8,4 +8,6 @@ abstract class OperatorRepository {
   Future deleteOperator(int operatorId);
 
   Future<List<Operator>> getAllOperators();
+
+  Future<List<Operator>> getOperatorsByTag(String tag);
 }

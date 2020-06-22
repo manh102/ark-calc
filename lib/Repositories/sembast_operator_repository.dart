@@ -29,4 +29,17 @@ class SembastOperatorRepository extends OperatorRepository {
         .map((snapshot) => Operator.fromMap(snapshot.key, snapshot.value))
         .toList(growable: false);
   }
+
+  @override
+  Future<List<Operator>> getOperatorsByTag(String tag) async {
+    print("Get OP by tag");
+    print(tag);
+    var finder = Finder(
+      filter: Filter.equals(tag, true),
+    );
+    var snapshots = await _list.find(_database, finder: finder);
+    return snapshots
+        .map((snapshot) => Operator.fromMap(snapshot.key, snapshot.value))
+        .toList(growable: false);
+  }
 }
