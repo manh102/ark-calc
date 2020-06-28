@@ -63,6 +63,39 @@ class Operator {
     this.robot,
   });
 
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'id': id,
+        'name': name,
+        'starter': starter,
+        'seniorOperator': seniorOperator,
+        'topOperator': topOperator,
+        'melee': melee,
+        'ranged': ranged,
+        'guard': guard,
+        'medic': medic,
+        'vanguard': vanguard,
+        'caster': caster,
+        'sniper': sniper,
+        'defender': defender,
+        'supporter': supporter,
+        'specialist': specialist,
+        'healing': healing,
+        'support': support,
+        'dPS': dPS,
+        'aOE': aOE,
+        'slow': slow,
+        'survival': survival,
+        'defense': defense,
+        'debuff': debuff,
+        'shift': shift,
+        'crowdControl': crowdControl,
+        'nuker': nuker,
+        'summon': summon,
+        'fastRedeploy': fastRedeploy,
+        'dPRecovery': dPRecovery,
+        'robot': robot,
+      };
+
   Operator convertOperator(String name, List<int> attributes) {
     var newOperator = Operator(
       name: name,

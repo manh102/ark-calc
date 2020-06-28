@@ -32,7 +32,7 @@ class SembastOperatorRepository extends OperatorRepository {
 
   @override
   Future<List<Operator>> getOperatorsByTag(String tag) async {
-    print("Get OP by tag");
+    print("repository get OP by tag");
     print(tag);
     var finder = Finder(
       filter: Filter.equals(tag, true),
