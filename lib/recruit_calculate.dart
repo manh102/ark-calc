@@ -2,17 +2,31 @@ import 'package:arklevelcalculator/constants.dart';
 import 'package:get_it/get_it.dart';
 
 import 'Repositories/operator_repository.dart';
+import 'models/recruit_combine_result.dart';
 
 class RecruitCalculate {
   List<List<String>> intersectionList = [];
-  List<List<String>> combineTagList = [];
+  List<int> combineTagList = [];
 
-  findIntersectionList(
+  RecruitCombineModel findIntersectionList(
       {List<String> list1,
       List<String> list2,
       List<String> list3,
       List<String> tagList}) {
     print("Find intersection list");
+    // print(tagList);
+    // print("SHOW ALL LIST");
+    // print("list1");
+    // print(list1);
+    // print("list2");
+    // print(list2);
+    // print("list3");
+    // print(list3);
+    combineTagList = [];
+
+    if (tagList.length < 2) {
+      return null;
+    }
 
     // create total list
     List<String> totalList = [];
@@ -30,25 +44,21 @@ class RecruitCalculate {
     totalList = totalList.toSet().toList();
 
     for (final name in totalList) {
-      List<String> exTag = [];
+      var encodedTag = 0;
       if (list1.contains(name)) {
-        exTag.add(tagList[0]);
+        encodedTag += 2;
       }
       if (list2.contains(name)) {
-        exTag.add(tagList[1]);
+        encodedTag += 3;
       }
       if (list3.contains(name)) {
-        exTag.add(tagList[2]);
+        encodedTag += 4;
       }
 
       // Check if there is a combine tag
-      if (exTag.length > 1) {
-        if (!combineTagList.contains(exTag)) {
-          print("ahihi");
-          print(exTag);
-          print(combineTagList.contains(exTag));
-          print(combineTagList);
-          combineTagList.add(exTag);
+      if (encodedTag > 4) {
+        if (!combineTagList.contains(encodedTag)) {
+          combineTagList.add(encodedTag);
           List<String> combineOPList = [name];
           // TODO: test
           if (!intersectionList.contains([name])) {
@@ -57,8 +67,10 @@ class RecruitCalculate {
         } else {
           // exTag already exist in combineTagList
           // add name of OP to that list in combineOPList
-          int index = combineTagList.indexOf(exTag);
-          intersectionList[index].add(name);
+          int index = combineTagList.indexOf(encodedTag);
+          if (!intersectionList[index].contains(name)) {
+            intersectionList[index].add(name);
+          }
         }
       }
     }
@@ -67,6 +79,26 @@ class RecruitCalculate {
     print(combineTagList);
     print(intersectionList);
     print("////////////////////////////");
+    RecruitCombineModel recruitCombineResult = RecruitCombineModel(
+        operatorList: intersectionList,
+        combineTagList: decodeTagList(combineTagList, tagList));
+    return recruitCombineResult;
+  }
+
+  List<List<String>> decodeTagList(List<int> encodedTag, List<String> tagList) {
+    List<List<String>> decodedTagList = [];
+    for (final value in encodedTag) {
+      if (value == 5) {
+        decodedTagList.add([tagList[0], tagList[1]]);
+      }
+      if (value == 6) {
+        decodedTagList.add([tagList[0], tagList[2]]);
+      }
+      if (value == 7) {
+        decodedTagList.add([tagList[1], tagList[2]]);
+      }
+    }
+    return decodedTagList;
   }
 
   String convertTagName(String tag) {

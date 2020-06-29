@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:arklevelcalculator/Repositories/operator_repository.dart';
 import 'package:arklevelcalculator/components/chart_button.dart';
+import 'package:arklevelcalculator/models/recruit_combine_result.dart';
 import 'package:arklevelcalculator/recruit_calculate.dart';
 import 'package:flutter/material.dart';
 import 'package:arklevelcalculator/constants.dart';
@@ -19,6 +20,7 @@ class _RecruitPage extends State<RecruitPage> {
   List<String> listOperator2 = [];
   List<String> listOperator3 = [];
   List<String> selectedTag = [];
+  RecruitCombineModel combineResult = null;
   RecruitCalculate recruitCalculate = RecruitCalculate();
 
   @override
@@ -343,6 +345,10 @@ class _RecruitPage extends State<RecruitPage> {
                 listOperator1 = [];
                 listOperator2 = [];
                 listOperator3 = [];
+                if (combineResult != null) {
+                  combineResult.combineTagList = [];
+                  combineResult.operatorList = [];
+                }
               });
             },
           ),
@@ -489,41 +495,52 @@ class _RecruitPage extends State<RecruitPage> {
                     ),
                   ),
                 ]),
-//              for (final list in totalList)
-//                TableRow(children: [
-//                  TableCell(
-//                    verticalAlignment: TableCellVerticalAlignment.middle,
-//                    child: Center(
-//                      child: Text(
-//                        '1',
-//                        style: kRecruitTitle,
-//                      ),
-//                    ),
-//                  ),
-//                  TableCell(
-//                    verticalAlignment: TableCellVerticalAlignment.middle,
-//                    child: Center(
-//                      child: Text(
-//                        'Top Operator',
-//                        style: kRecruitTitle,
-//                      ),
-//                    ),
-//                  ),
-//                  TableCell(
-//                    child: Padding(
-//                      padding: const EdgeInsets.only(left: 5.0),
-//                      child: Wrap(
-//                        spacing: 1.0,
-//                        children: <Widget>[
-//                          for (final name in list)
-//                            CharButton(
-//                              characterName: name,
-//                            ),
-//                        ],
-//                      ),
-//                    ),
-//                  ),
-//                ]),
+              if (combineResult != null &&
+                  combineResult.combineTagList.length ==
+                      combineResult.combineTagList.length &&
+                  combineResult.combineTagList != [] &&
+                  combineResult.operatorList != [])
+                for (var i = 0; i < combineResult.combineTagList.length; i++)
+                  TableRow(children: [
+                    TableCell(
+                      verticalAlignment: TableCellVerticalAlignment.middle,
+                      child: Center(
+                        child: Text(
+                          '1',
+                          style: kRecruitTitle,
+                        ),
+                      ),
+                    ),
+                    TableCell(
+                      verticalAlignment: TableCellVerticalAlignment.middle,
+                      child: Center(
+                        child: Wrap(
+                          spacing: 1.0,
+                          children: <Widget>[
+                            for (final tag in combineResult.combineTagList[i])
+                              Text(
+                                tag,
+                                style: kRecruitTitle,
+                              ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    TableCell(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 5.0),
+                        child: Wrap(
+                          spacing: 1.0,
+                          children: <Widget>[
+                            for (final name in combineResult.operatorList[i])
+                              CharButton(
+                                characterName: name,
+                              ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ]),
             ],
           ),
         ],
@@ -564,6 +581,10 @@ class _RecruitPage extends State<RecruitPage> {
     listOperator1 = [];
     listOperator2 = [];
     listOperator3 = [];
+    if (combineResult != null) {
+      combineResult.combineTagList = [];
+      combineResult.operatorList = [];
+    }
   }
 
   _searchOperators(List<String> tagList) async {
@@ -598,7 +619,7 @@ class _RecruitPage extends State<RecruitPage> {
     print(listOperator2);
 
     // find intersection list
-    recruitCalculate.findIntersectionList(
+    combineResult = recruitCalculate.findIntersectionList(
         list1: listOperator1,
         list2: listOperator2,
         list3: listOperator3,
