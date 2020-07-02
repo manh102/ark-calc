@@ -497,7 +497,7 @@ class _RecruitPage extends State<RecruitPage> {
                 ]),
               if (combineResult != null &&
                   combineResult.combineTagList.length ==
-                      combineResult.combineTagList.length &&
+                      combineResult.operatorList.length &&
                   combineResult.combineTagList != [] &&
                   combineResult.operatorList != [])
                 for (var i = 0; i < combineResult.combineTagList.length; i++)
@@ -506,7 +506,7 @@ class _RecruitPage extends State<RecruitPage> {
                       verticalAlignment: TableCellVerticalAlignment.middle,
                       child: Center(
                         child: Text(
-                          '1',
+                          (i + 4).toString(),
                           style: kRecruitTitle,
                         ),
                       ),
@@ -519,7 +519,7 @@ class _RecruitPage extends State<RecruitPage> {
                           children: <Widget>[
                             for (final tag in combineResult.combineTagList[i])
                               Text(
-                                tag,
+                                recruitCalculate.convertTagName(tag),
                                 style: kRecruitTitle,
                               ),
                           ],
@@ -597,7 +597,7 @@ class _RecruitPage extends State<RecruitPage> {
       final operators = await _operatorRepository.getOperatorsByTag(tagList[i]);
       for (final operator in operators) {
         result.add(operator.name);
-        print("OP name: " + operator.name + ", ID:" + operator.id.toString());
+        //print("OP name: " + operator.name + ", ID:" + operator.id.toString());
       }
       if (i == 0) {
         setState(() {
@@ -624,5 +624,10 @@ class _RecruitPage extends State<RecruitPage> {
         list2: listOperator2,
         list3: listOperator3,
         tagList: selectedTag);
+
+    if (combineResult != null) {
+      print(combineResult.combineTagList);
+      print(combineResult.operatorList);
+    }
   }
 }

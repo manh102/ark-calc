@@ -14,15 +14,8 @@ class RecruitCalculate {
       List<String> list3,
       List<String> tagList}) {
     print("Find intersection list");
-    // print(tagList);
-    // print("SHOW ALL LIST");
-    // print("list1");
-    // print(list1);
-    // print("list2");
-    // print(list2);
-    // print("list3");
-    // print(list3);
     combineTagList = [];
+    intersectionList = [];
 
     if (tagList.length < 2) {
       return null;
@@ -54,24 +47,14 @@ class RecruitCalculate {
       if (list3.contains(name)) {
         encodedTag += 4;
       }
-
-      // Check if there is a combine tag
-      if (encodedTag > 4) {
-        if (!combineTagList.contains(encodedTag)) {
-          combineTagList.add(encodedTag);
-          List<String> combineOPList = [name];
-          // TODO: test
-          if (!intersectionList.contains([name])) {
-            intersectionList.add(combineOPList);
-          }
-        } else {
-          // exTag already exist in combineTagList
-          // add name of OP to that list in combineOPList
-          int index = combineTagList.indexOf(encodedTag);
-          if (!intersectionList[index].contains(name)) {
-            intersectionList[index].add(name);
-          }
-        }
+      // Check if there is a combination of three tags, then split to its child tag
+      // ex: 9 (included three tags) -> slit to (5, 6, 7)
+      if (encodedTag == 9) {
+        extractCombineList(5, name);
+        extractCombineList(6, name);
+        extractCombineList(7, name);
+      } else {
+        extractCombineList(encodedTag, name);
       }
     }
 
@@ -85,6 +68,23 @@ class RecruitCalculate {
     return recruitCombineResult;
   }
 
+  extractCombineList(int encodedTag, String name) {
+    if (encodedTag > 4) {
+      if (!combineTagList.contains(encodedTag)) {
+        combineTagList.add(encodedTag);
+        List<String> combineOPList = [name];
+        intersectionList.add(combineOPList);
+      } else {
+        // exTag already exist in combineTagList
+        // add name of OP to that list in combineOPList
+        int index = combineTagList.indexOf(encodedTag);
+        if (!intersectionList[index].contains(name)) {
+          intersectionList[index].add(name);
+        }
+      }
+    }
+  }
+
   List<List<String>> decodeTagList(List<int> encodedTag, List<String> tagList) {
     List<List<String>> decodedTagList = [];
     for (final value in encodedTag) {
@@ -96,6 +96,9 @@ class RecruitCalculate {
       }
       if (value == 7) {
         decodedTagList.add([tagList[1], tagList[2]]);
+      }
+      if (value == 9) {
+        decodedTagList.add([tagList[0], tagList[1], tagList[2]]);
       }
     }
     return decodedTagList;

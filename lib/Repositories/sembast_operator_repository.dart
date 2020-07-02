@@ -38,15 +38,11 @@ class SembastOperatorRepository extends OperatorRepository {
       filter: Filter.equals(tag, true),
     );
     // 3 mean top operator
-    // if (tag != "topOperator") {
-    //   finder = Finder(
-    //       filter: Filter.and(
-    //           [Filter.equals(tag, true), Filter.equals("topOperator", false)]));
-    // } else {
-    //   finder = Finder(
-    //     filter: Filter.equals(tag, true),
-    //   );
-    // }
+//    if (tag != "topOperator") {
+//      finder = Finder(
+//          filter: Filter.and(
+//              [Filter.equals(tag, true), Filter.equals("topOperator", false)]));
+//    }
     var snapshots = await _list.find(_database, finder: finder);
     return snapshots
         .map((snapshot) => Operator.fromMap(snapshot.key, snapshot.value))
