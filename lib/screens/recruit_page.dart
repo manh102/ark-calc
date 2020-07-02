@@ -1,7 +1,6 @@
-import 'dart:ffi';
-
 import 'package:arklevelcalculator/Repositories/operator_repository.dart';
 import 'package:arklevelcalculator/components/chart_button.dart';
+import 'package:arklevelcalculator/entities/operator.dart';
 import 'package:arklevelcalculator/models/recruit_combine_result.dart';
 import 'package:arklevelcalculator/recruit_calculate.dart';
 import 'package:flutter/material.dart';
@@ -16,9 +15,9 @@ class RecruitPage extends StatefulWidget {
 class _RecruitPage extends State<RecruitPage> {
   OperatorRepository _operatorRepository = GetIt.I.get();
   List<List<String>> totalList = [];
-  List<String> listOperator1 = [];
-  List<String> listOperator2 = [];
-  List<String> listOperator3 = [];
+  List<Operator> listOperator1 = [];
+  List<Operator> listOperator2 = [];
+  List<Operator> listOperator3 = [];
   List<String> selectedTag = [];
   RecruitCombineModel combineResult = null;
   RecruitCalculate recruitCalculate = RecruitCalculate();
@@ -416,9 +415,9 @@ class _RecruitPage extends State<RecruitPage> {
                       child: Wrap(
                         spacing: 1.0,
                         children: <Widget>[
-                          for (final name in listOperator1)
+                          for (final operator in listOperator1)
                             CharButton(
-                              characterName: name,
+                              characterName: operator.name,
                             ),
                         ],
                       ),
@@ -451,9 +450,9 @@ class _RecruitPage extends State<RecruitPage> {
                       child: Wrap(
                         spacing: 1.0,
                         children: <Widget>[
-                          for (final name in listOperator2)
+                          for (final operator in listOperator2)
                             CharButton(
-                              characterName: name,
+                              characterName: operator.name,
                             ),
                         ],
                       ),
@@ -486,9 +485,9 @@ class _RecruitPage extends State<RecruitPage> {
                       child: Wrap(
                         spacing: 1.0,
                         children: <Widget>[
-                          for (final name in listOperator3)
+                          for (final operator in listOperator3)
                             CharButton(
-                              characterName: name,
+                              characterName: operator.name,
                             ),
                         ],
                       ),
@@ -588,15 +587,14 @@ class _RecruitPage extends State<RecruitPage> {
   }
 
   _searchOperators(List<String> tagList) async {
-    List<String> result = [];
     print('get OP by tag');
     print(tagList);
 
     for (var i = 0; i < tagList.length; i++) {
-      result = [];
+      List<Operator> result = [];
       final operators = await _operatorRepository.getOperatorsByTag(tagList[i]);
       for (final operator in operators) {
-        result.add(operator.name);
+        result.add(operator);
         //print("OP name: " + operator.name + ", ID:" + operator.id.toString());
       }
       if (i == 0) {
@@ -613,10 +611,6 @@ class _RecruitPage extends State<RecruitPage> {
         });
       }
     }
-
-    print("Review OP list");
-    print(listOperator1);
-    print(listOperator2);
 
     // find intersection list
     combineResult = recruitCalculate.findIntersectionList(

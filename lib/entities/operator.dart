@@ -63,6 +63,146 @@ class Operator {
     this.robot,
   });
 
+  bool get(String tag) {
+    switch (tag) {
+      case "starter":
+        {
+          return starter;
+        }
+        break;
+      case "seniorOperator":
+        {
+          return seniorOperator;
+        }
+        break;
+      case "topOperator":
+        {
+          return topOperator;
+        }
+        break;
+      case "melee":
+        {
+          return melee;
+        }
+        break;
+      case "ranged":
+        {
+          return ranged;
+        }
+        break;
+      case "guard":
+        {
+          return guard;
+        }
+        break;
+      case "medic":
+        {
+          return medic;
+        }
+        break;
+      case "vanguard":
+        {
+          return vanguard;
+        }
+        break;
+      case "caster":
+        {
+          return caster;
+        }
+        break;
+      case "sniper":
+        {
+          return sniper;
+        }
+        break;
+      case "supporter":
+        {
+          return supporter;
+        }
+        break;
+      case "specialist":
+        {
+          return specialist;
+        }
+        break;
+      case "healing":
+        {
+          return healing;
+        }
+        break;
+      case "support":
+        {
+          return support;
+        }
+        break;
+      case "dPS":
+        {
+          return dPS;
+        }
+        break;
+      case "aOE":
+        {
+          return aOE;
+        }
+        break;
+      case "slow":
+        {
+          return slow;
+        }
+        break;
+      case "survival":
+        {
+          return survival;
+        }
+        break;
+      case "defense":
+        {
+          return defense;
+        }
+        break;
+      case "debuff":
+        {
+          return debuff;
+        }
+        break;
+      case "shift":
+        {
+          return shift;
+        }
+        break;
+      case "crowdControl":
+        {
+          return crowdControl;
+        }
+        break;
+      case "nuker":
+        {
+          return nuker;
+        }
+        break;
+      case "summon":
+        {
+          return summon;
+        }
+        break;
+      case "fastRedeploy":
+        {
+          return fastRedeploy;
+        }
+        break;
+      case "dPRecovery":
+        {
+          return dPRecovery;
+        }
+        break;
+      case "robot":
+        {
+          return robot;
+        }
+        break;
+    }
+  }
+
   Map<String, dynamic> toJson() => <String, dynamic>{
         'id': id,
         'name': name,
