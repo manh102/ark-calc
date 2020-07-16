@@ -203,6 +203,95 @@ class Operator {
     }
   }
 
+  List<String> getTag() {
+    List<String> tagList = [];
+    if (starter == true) {
+      tagList.add('starter');
+    }
+    if (seniorOperator == true) {
+      tagList.add('seniorOperator');
+    }
+    if (topOperator == true) {
+      tagList.add('topOperator');
+    }
+    if (melee == true) {
+      tagList.add('melee');
+    }
+    if (ranged == true) {
+      tagList.add('ranged');
+    }
+    if (guard == true) {
+      tagList.add('guard');
+    }
+    if (medic == true) {
+      tagList.add('medic');
+    }
+    if (vanguard == true) {
+      tagList.add('vanguard');
+    }
+    if (caster == true) {
+      tagList.add('caster');
+    }
+    if (sniper == true) {
+      tagList.add('sniper');
+    }
+    if (defender == true) {
+      tagList.add('defender');
+    }
+    if (supporter == true) {
+      tagList.add('supporter');
+    }
+    if (specialist == true) {
+      tagList.add('specialist');
+    }
+    if (healing == true) {
+      tagList.add('healing');
+    }
+    if (support == true) {
+      tagList.add('support');
+    }
+    if (dPS == true) {
+      tagList.add('dPS');
+    }
+    if (aOE == true) {
+      tagList.add('aOE');
+    }
+    if (slow == true) {
+      tagList.add('slow');
+    }
+    if (survival == true) {
+      tagList.add('survival');
+    }
+    if (defense == true) {
+      tagList.add('defense');
+    }
+    if (debuff == true) {
+      tagList.add('debuff');
+    }
+    if (shift == true) {
+      tagList.add('shift');
+    }
+    if (crowdControl == true) {
+      tagList.add('crowdControl');
+    }
+    if (nuker == true) {
+      tagList.add('nuker');
+    }
+    if (summon == true) {
+      tagList.add('summon');
+    }
+    if (fastRedeploy == true) {
+      tagList.add('fastRedeploy');
+    }
+    if (dPRecovery == true) {
+      tagList.add('dPRecovery');
+    }
+    if (robot == true) {
+      tagList.add('robot');
+    }
+    return tagList;
+  }
+
   Map<String, dynamic> toJson() => <String, dynamic>{
         'id': id,
         'name': name,

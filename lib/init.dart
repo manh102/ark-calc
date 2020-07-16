@@ -49,7 +49,7 @@ class Init {
           Operator().convertOperator("Hibiscus", [4, 13, 6]),
           Operator().convertOperator("Hoshiguma", [3, 15, 19, 1, 2, 10]),
           Operator().convertOperator("Ifrit", [4, 16, 20, 1, 2, 8]),
-          Operator().convertOperator("Indra", [4, 15, 18, 1, 5]),
+          Operator().convertOperator("Indra", [3, 15, 18, 1, 5]),
           Operator().convertOperator("Jessica", [4, 15, 18, 9]),
           Operator().convertOperator("Kroos", [4, 15, 9]),
           Operator().convertOperator("Lancet-2", [4, 13, 27, 6]),

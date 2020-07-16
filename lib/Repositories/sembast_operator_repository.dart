@@ -23,6 +23,18 @@ class SembastOperatorRepository extends OperatorRepository {
   }
 
   @override
+  Future<Operator> getOperator(String targetName) async {
+    var finder = Finder(
+      filter: Filter.equals("name", targetName),
+    );
+    var snapshots = await _list.find(_database, finder: finder);
+    return snapshots
+        .map((snapshot) => Operator.fromMap(snapshot.key, snapshot.value))
+        .toList(growable: false)
+        .first;
+  }
+
+  @override
   Future<List<Operator>> getAllOperators() async {
     final snapshots = await _list.find(_database);
     return snapshots
@@ -38,11 +50,11 @@ class SembastOperatorRepository extends OperatorRepository {
       filter: Filter.equals(tag, true),
     );
     // 3 mean top operator
-//    if (tag != "topOperator") {
-//      finder = Finder(
-//          filter: Filter.and(
-//              [Filter.equals(tag, true), Filter.equals("topOperator", false)]));
-//    }
+    if (tag != "topOperator") {
+      finder = Finder(
+          filter: Filter.and(
+              [Filter.equals(tag, true), Filter.equals("topOperator", false)]));
+    }
     var snapshots = await _list.find(_database, finder: finder);
     return snapshots
         .map((snapshot) => Operator.fromMap(snapshot.key, snapshot.value))

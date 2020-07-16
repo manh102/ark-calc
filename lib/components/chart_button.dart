@@ -1,9 +1,13 @@
+import 'package:arklevelcalculator/entities/operator.dart';
 import 'package:flutter/material.dart';
+
+typedef StringValue = void Function(String);
 
 class CharButton extends StatelessWidget {
   final String characterName;
+  StringValue callback;
 
-  CharButton({this.characterName});
+  CharButton(this.callback, {this.characterName});
 
   @override
   Widget build(BuildContext context) {
@@ -12,10 +16,10 @@ class CharButton extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: () {
-          print('SIEGE HEHE');
+          callback(characterName);
         }, // needed
         child: Image.asset(
-          "assets/images/$characterName.png",
+          "assets/images/${characterName}.png",
           width: 50,
           fit: BoxFit.cover,
         ),

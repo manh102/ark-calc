@@ -57,6 +57,7 @@ class RecruitCalculate {
         extractCombineList(5, operator, tagList);
         extractCombineList(6, operator, tagList);
         extractCombineList(7, operator, tagList);
+        extractCombineList(9, operator, tagList);
       } else {
         extractCombineList(encodedTag, operator, tagList);
       }
@@ -180,6 +181,11 @@ class RecruitCalculate {
       case "sniper":
         {
           return "Sniper";
+        }
+        break;
+      case "defender":
+        {
+          return "Defender";
         }
         break;
       case "supporter":
