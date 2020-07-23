@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:arklevelcalculator/screens/input_page.dart';
 import 'package:arklevelcalculator/screens/recruit_page.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +7,7 @@ import 'package:arklevelcalculator/constants.dart';
 import 'package:arklevelcalculator/components/reusabke_square_card.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:arklevelcalculator/components/icon_content.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 
 enum Category {
   male,
@@ -21,6 +24,22 @@ class _HomePageState extends State<HomePage> {
   int height = 180;
   int weight = 60;
   int age = 20;
+  BannerAd myBanner;
+
+  @override
+  void initState() {
+    super.initState();
+
+    FirebaseAdMob.instance.initialize(appId: FirebaseAdMob.testAppId);
+    myBanner = buildBannerAd()..load();
+    //myBanner = buildLargeBannerAd()..load();
+  }
+
+  @override
+  void dispose() {
+    myBanner.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,5 +104,31 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
+  }
+
+  BannerAd buildBannerAd() {
+    return BannerAd(
+        adUnitId: 'ca-app-pub-3011015245125336/7942810951',
+        size: AdSize.banner,
+        listener: (MobileAdEvent event) {
+          if (event == MobileAdEvent.loaded) {
+            myBanner..show();
+          }
+        });
+  }
+
+  BannerAd buildLargeBannerAd() {
+    return BannerAd(
+        adUnitId: 'ca-app-pub-3011015245125336/7942810951',
+        //BannerAd.testAdUnitId,
+        size: AdSize.largeBanner,
+        listener: (MobileAdEvent event) {
+          if (event == MobileAdEvent.loaded) {
+            myBanner
+              ..show(
+                  anchorType: AnchorType.top,
+                  anchorOffset: MediaQuery.of(context).size.height * 0.15);
+          }
+        });
   }
 }

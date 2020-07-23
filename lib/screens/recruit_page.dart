@@ -566,6 +566,9 @@ class _RecruitPage extends State<RecruitPage> {
                 ]),
             ],
           ),
+          SizedBox(
+            height: 60.0,
+          ),
         ],
       ),
     );
