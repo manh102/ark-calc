@@ -1,40 +1,82 @@
 import 'package:flutter/material.dart';
-import 'package:arklevelcalculator/screens/home_page.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:route_annotation/route_annotation.dart';
+import 'file:///D:/ZWorkspace/ark-calc/lib/base/di/locator.dart';
+import 'package:arklevelcalculator/feature/splash_screen/splash_viewmodel.dart';
+import 'package:arklevelcalculator/localization/application.dart';
+import 'package:arklevelcalculator/main.route.dart';
 
-import 'init.dart';
+import 'datasource/remote/api_client.dart';
+import 'localization/app_translations_delegate.dart';
+import 'resources/app_style.dart';
 
-void main() => runApp(ARKLevelCalculator());
+// Init lib here: locator, lang ...
+void main() async => {
+      setUpInjector(),
+      Provider.debugCheckInvalidValueType = null,
+      runApp(
+        App(),
+      ),
+    };
 
-class ARKLevelCalculator extends StatefulWidget {
+@Router()
+class App extends StatefulWidget {
   @override
-  _ARKLevelCalculatorState createState() => _ARKLevelCalculatorState();
+  _AppState createState() => _AppState();
 }
 
-class _ARKLevelCalculatorState extends State<ARKLevelCalculator> {
-  final Future _init = Init.initialize();
+class _AppState extends State<App> {
+  AppTranslationsDelegate _newLocaleDelegate;
+  Key key = UniqueKey();
+
+  @override
+  void initState() {
+    super.initState();
+
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+
+    _newLocaleDelegate =
+        AppTranslationsDelegate(newLocale: Locale("vi", "Vietnamese"));
+    application.onLocaleChanged = onLocaleChange;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark().copyWith(
-        primaryColor: Color(0xFF0A0E21),
-        scaffoldBackgroundColor: Color(0xFF0A0E21),
-      ),
-      home: FutureBuilder(
-        future: _init,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return HomePage();
-          } else {
-            return Material(
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }
-        },
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => SplashScreenViewModel()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: AppStyle.appTheme,
+        key: key,
+        navigatorKey: application.getNavigatorKey(isGenNewKey: true),
+//        initialRoute: ROUTE_HOME,
+//        onGenerateRoute: onGenerateRoute,
+//        localizationsDelegates: [
+//          _newLocaleDelegate,
+//          //provides localised strings
+//          GlobalMaterialLocalizations.delegate,
+//          //provides RTL support
+//          GlobalWidgetsLocalizations.delegate,
+//          GlobalCupertinoLocalizations.delegate,
+//        ],
+        supportedLocales: [
+          const Locale("en", ""),
+          const Locale("vi", ""),
+        ],
       ),
     );
+  }
+
+  void onLocaleChange(Locale locale) {
+    setState(() {
+      _newLocaleDelegate = AppTranslationsDelegate(newLocale: locale);
+    });
   }
 }

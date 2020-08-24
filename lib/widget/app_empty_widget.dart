@@ -1,0 +1,54 @@
+import 'package:flutter/material.dart';
+import 'package:arklevelcalculator/localization/app_translations.dart';
+import 'package:arklevelcalculator/resources/app_dimen.dart';
+import 'package:arklevelcalculator/resources/app_drawable.dart';
+import 'package:arklevelcalculator/resources/app_lang.dart';
+
+class AppEmptyWidget extends StatelessWidget {
+  final String emptyMessage;
+  final VoidCallback onRefresh;
+  final String retryLabel;
+
+  AppEmptyWidget({
+    this.emptyMessage,
+    this.onRefresh,
+    this.retryLabel,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Image(
+            image: AssetImage(AppDrawable.bg_empty),
+            width: 200,
+            height: 200,
+          ),
+          SizedBox(
+            height: AppDimen.app_margin,
+          ),
+          Text(
+            emptyMessage,
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(
+            height: AppDimen.app_margin,
+          ),
+          SizedBox(
+            width: 150,
+            child: OutlineButton(
+              child: Text(
+                retryLabel ??
+                    AppTranslations.of(context).text(AppLang.common_re_try),
+              ),
+              onPressed: onRefresh,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
