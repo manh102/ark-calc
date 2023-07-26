@@ -1,0 +1,39 @@
+default_platform(:android)
+platform :android do
+  desc "Build a Flutter APK"
+  lane :build do |options|
+    flavor = options[:flavor] || "vnDev" # Example: vnDev
+    flavorTargetFile = options[:flavorTargetFile] ||  "lib/main_vn_dev.dart" # Example: lib/main_vn_dev.dart
+    buildMode = options[:buildMode] || "release" # Example: "release"
+
+    Dir.chdir("../..") do
+      sh "flutter packages pub get"
+      sh "flutter clean"
+      sh "flutter doctor --android-licenses"
+      if buildMode == 'release'
+        sh "flutter build apk --#{buildMode} --flavor #{flavor} -t ./#{flavorTargetFile} --target-platform android-arm64 --analyze-size --split-per-abi"
+      else
+        sh "flutter build apk --#{buildMode} --flavor #{flavor} -t ./#{flavorTargetFile} --target-platform android-arm64 --split-per-abi"
+      end
+    end
+  end
+
+  desc "Submit a new Beta Build to Firebase App Distribution"
+  lane :deploy_beta do |options|
+    flavor = options[:flavor] || "vndev" # Example: vndev
+    buildMode = options[:buildMode] || "release" # Example: "release"
+
+    if File.exist?(File.dirname(__FILE__) + "./../build/app/outputs/flutter-apk/app.apk")
+      firebase_app_distribution(
+        app: "1:325093841383:android:5de927d334e497c5148542",
+        android_artifact_type: "APK",
+        android_artifact_path: "./../build/app/outputs/flutter-apk/app.apk",
+        testers_file: "fastlane/testers.txt",
+        release_notes_file: "fastlane/release-notes.txt",
+        firebase_cli_token: "1//0gJdrhl4nyu4sCgYIARAAGBASNwF-L9IrVOjUGgY9WkODWw1kC-FWH-O04SAGkxhxnSIbKLmMQaXB7axYaUBnRaUs8EyaRynWsz4"
+      )
+    else
+      UI.message('Unable to find apk')
+    end
+  end
+end

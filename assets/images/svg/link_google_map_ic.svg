@@ -1,0 +1,10 @@
+<svg id="Link_Google_Maps" data-name="Link Google Maps" xmlns="http://www.w3.org/2000/svg" width="16" height="14" viewBox="0 0 16 14">
+    <rect id="Rectangle_1627" data-name="Rectangle 1627" width="16" height="14" rx="3" fill="#d2ff96" opacity="0.7"/>
+    <g id="Pin_maps_button" data-name="Pin maps button" transform="translate(3.741 2.149)">
+        <g id="Location">
+            <path id="Path_33958" d="M0,4.064A4.173,4.173,0,0,1,4.273,0,4.17,4.17,0,0,1,8.517,4.092v.046A5.921,5.921,0,0,1,6.588,8.012a14.253,14.253,0,0,1-2.158,1.9L4.1,9.679l-.18-.1a10.816,10.816,0,0,1-2.8-2.512A5.082,5.082,0,0,1,0,4.078Z" transform="translate(0 0)" fill="none" stroke="#848496" stroke-miterlimit="10" stroke-width="1"/>
+            <ellipse id="Ellipse_740" cx="1.365" cy="1.307" rx="1.365" ry="1.307" transform="translate(2.894 2.835)" fill="none" stroke="#848496" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1"/>
+        </g>
+    </g>
+</svg>
+

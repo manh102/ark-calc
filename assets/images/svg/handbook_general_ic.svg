@@ -1,0 +1,9 @@
+<svg id="vuesax_linear_archive-book" data-name="vuesax/linear/archive-book" xmlns="http://www.w3.org/2000/svg" width="48.655" height="48.655" viewBox="0 0 48.655 48.655">
+<g id="archive-book">
+<path id="Vector" d="M36.491,10.136V30.409c0,6.082-3.041,10.136-10.136,10.136H10.136C3.041,40.546,0,36.491,0,30.409V10.136C0,4.055,3.041,0,10.136,0H26.355C33.45,0,36.491,4.055,36.491,10.136Z" transform="translate(6.082 4.055)" fill="none" stroke="#34da4f" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+<path id="Vector-2" data-name="Vector" d="M14.191,0V15.935a1.017,1.017,0,0,1-1.7.75l-4.7-4.338a1,1,0,0,0-1.379,0L1.7,16.685a1.017,1.017,0,0,1-1.7-.75V0Z" transform="translate(17.232 4.055)" fill="none" stroke="#34da4f" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+<path id="Vector-3" data-name="Vector" d="M0,0H8.616" transform="translate(26.862 28.382)" fill="none" stroke="#34da4f" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+<path id="Vector-4" data-name="Vector" d="M0,0H17.232" transform="translate(18.246 36.491)" fill="none" stroke="#34da4f" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+<path id="Vector-5" data-name="Vector" d="M0,0H48.655V48.655H0Z" transform="translate(48.655 48.655) rotate(180)" fill="none" opacity="0"/>
+</g>
+</svg>

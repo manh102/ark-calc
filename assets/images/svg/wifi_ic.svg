@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="8.906" height="8.906" viewBox="0 0 8.906 8.906">
+    <g id="vuesax_linear_wifi" data-name="vuesax/linear/wifi" transform="translate(-428 -572)">
+        <g id="wifi" transform="translate(428 572)">
+            <g id="Group" transform="translate(0.742 1.8)">
+                <path id="Vector" d="M0,.924a4.213,4.213,0,0,1,5.266,0" transform="translate(1.08 1.67)" fill="none" stroke="#848496" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.5"/>
+                <path id="Vector-2" data-name="Vector" d="M0,1.3a5.938,5.938,0,0,1,7.422,0" transform="translate(0 0)" fill="none" stroke="#848496" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.5"/>
+                <path id="Vector-3" data-name="Vector" d="M0,.679a3.086,3.086,0,0,1,3.863,0" transform="translate(1.778 3.269)" fill="none" stroke="#848496" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.5"/>
+                <path id="Vector-4" data-name="Vector" d="M0,.34a1.546,1.546,0,0,1,1.933,0" transform="translate(2.746 4.967)" fill="none" stroke="#848496" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.5"/>
+            </g>
+            <path id="Vector-5" data-name="Vector" d="M0,0H8.906V8.906H0Z" fill="none" opacity="0"/>
+        </g>
+    </g>
+</svg>

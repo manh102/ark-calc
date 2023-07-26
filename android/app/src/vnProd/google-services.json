@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "1067677847291",
+    "project_id": "pointsuite-dev",
+    "storage_bucket": "pointsuite-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1067677847291:android:d2ede70d78a0c5b733aa5e",
+        "android_client_info": {
+          "package_name": "xyz.pointsuite2.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1067677847291-v93tq76mbsmib4dmdiautmie8o9o4dj6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "xyz.pointsuite2.dev",
+            "certificate_hash": "04caca650c14b2f5c6f5ec89d7cae54a946eab34"
+          }
+        },
+        {
+          "client_id": "1067677847291-gf1e56fs9b9klm5eot0f6gsdsf2fb426.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgTTgU9LNzDwiWXmizTNF5eOqjAoBnjzU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1067677847291-gf1e56fs9b9klm5eot0f6gsdsf2fb426.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1067677847291-ihbqn11iuhdft8cvgmlkkndi3no3m419.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "xyz.pointsuite.dev"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

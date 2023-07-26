@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="52" height="52" viewBox="0 0 52 52">
+<defs>
+<filter id="Rectangle_1593" x="0" y="0" width="52" height="52" filterUnits="userSpaceOnUse">
+<feOffset dy="3" input="SourceAlpha"/>
+<feGaussianBlur stdDeviation="3" result="blur"/>
+<feFlood flood-opacity="0.161"/>
+<feComposite operator="in" in2="blur"/>
+<feComposite in="SourceGraphic"/>
+</filter>
+</defs>
+<g id="Group_1975" data-name="Group 1975" transform="translate(-318 -44)">
+<g transform="matrix(1, 0, 0, 1, 318, 44)" filter="url(#Rectangle_1593)">
+<rect id="Rectangle_1593-2" data-name="Rectangle 1593" width="34" height="34" rx="5" transform="translate(9 6)" fill="#fff"/>
+</g>
+<g id="Group_1974" data-name="Group 1974" transform="translate(-4227.282 -1039)">
+<g id="Group_1972" data-name="Group 1972" transform="translate(4563.283 1107.55)">
+<path id="Stroke_1" data-name="Stroke 1" d="M7.72.588H0" transform="translate(0 1.877)" fill="none" stroke="#0ebe2c" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"/>
+<path id="Stroke_3" data-name="Stroke 3" d="M4.93,2.465A2.465,2.465,0,1,1,2.465,0,2.465,2.465,0,0,1,4.93,2.465Z" transform="translate(10.677)" fill="none" stroke="#0ebe2c" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"/>
+</g>
+<g id="Group_1973" data-name="Group 1973" transform="translate(4563.282 1099.677)">
+<path id="Stroke_5" data-name="Stroke 5" d="M0,.588H7.456" transform="translate(8.151 1.877)" fill="none" stroke="#0ebe2c" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"/>
+<path id="Stroke_7" data-name="Stroke 7" d="M0,2.465A2.465,2.465,0,1,0,2.465,0,2.464,2.464,0,0,0,0,2.465Z" fill="none" stroke="#0ebe2c" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"/>
+</g>
+</g>
+</g>
+</svg>
