@@ -6,8 +6,6 @@
 
 import 'package:new_ark_calc/core/extensions/iterable_extension.dart';
 import 'package:new_ark_calc/features/home/data/models/brand_model.dart';
-import 'package:new_ark_calc/features/home/data/models/category_model.dart';
-import 'package:new_ark_calc/features/home/data/models/reward_response_model.dart';
 import "package:new_ark_calc/features/profile/data/models/user_profile_model.dart";
 
 import '../../features/sign_in/data/models/sign_in_model.dart';
@@ -20,8 +18,6 @@ class JsonConvert<T> {
       return SignInModel.fromMap(json);
     } else if (type.startsWith("UserProfileModel")) {
       return UserProfileModel.fromMap(json);
-    } else if (type.startsWith("RewardResponseModel")) {
-      return RewardResponseModel.fromMap(json);
     }
     return json as M;
   }
@@ -30,11 +26,7 @@ class JsonConvert<T> {
   static M _getListChildType<M>(List data) {
     String type = M.toString();
 
-    if (type.startsWith("List<CategoryModel>")) {
-      final mapList = data
-          .mapList<CategoryModel>((source) => CategoryModel.fromMap(source));
-      return mapList as M;
-    } else if (type.startsWith("List<BrandModel>")) {
+    if (type.startsWith("List<BrandModel>")) {
       final mapList =
           data.mapList<BrandModel>((source) => BrandModel.fromMap(source));
       return mapList as M;

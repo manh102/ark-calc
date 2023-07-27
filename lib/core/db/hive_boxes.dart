@@ -20,4 +20,5 @@ class HiveBoxes {
 class HiveBoxConst {
   static const String BOX_CATEGORY = "ps_categories";
   static const String BOX_BRAND = "ps_brands";
+  static const String BOX_OPERATOR = "ps_operators";
 }

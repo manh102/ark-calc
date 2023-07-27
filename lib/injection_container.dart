@@ -18,14 +18,11 @@ import 'features/app_bloc/app_bloc.dart';
 import 'features/home/data/data_sources/home_remote_data_source.dart';
 import 'features/home/data/repositories/home_repository_impl.dart';
 import 'features/home/domain/repositories/home_repository.dart';
-import 'features/home/domain/usecases/get_brand_usecase.dart';
 import 'features/home/presentation/bloc/home_bloc.dart';
 import 'features/home/data/data_sources/home_local_data_source.dart';
 import 'features/home/data/models/brand_hive.dart';
 import 'features/home/data/models/category_hive.dart';
 import 'features/home/domain/usecases/get_category_usecase.dart';
-import 'features/home/domain/usecases/get_explore_rewards_usecase.dart';
-import 'features/home/domain/usecases/get_my_rewards_usecase.dart';
 import 'features/profile/data/data_sources/profile_remote_data_source.dart';
 import 'features/profile/data/repositories/profile_repository_impl.dart';
 import 'features/profile/domain/repositories/profile_repository.dart';
@@ -75,8 +72,6 @@ Future<void> _injectDataSources() async {
       () => SignInRemoteDataSourceImpl(sl()));
   sl.registerLazySingleton<HomeLocalDataSource>(
       () => HomeLocalDataSourceImpl());
-  sl.registerLazySingleton<HomeRemoteDataSource>(
-      () => HomeRemoteDataSourceImpl(sl()));
   sl.registerLazySingleton<ProfileRemoteDataSource>(
       () => ProfileRemoteDataSourceImpl(sl()));
 }
@@ -84,8 +79,7 @@ Future<void> _injectDataSources() async {
 Future<void> _injectRepositories() async {
   sl.registerLazySingleton<SignInRepository>(
       () => SignInRepositoryImpl(sl(), sl()));
-  sl.registerLazySingleton<HomeRepository>(
-      () => HomeRepositoryImpl(sl(), sl()));
+  sl.registerLazySingleton<HomeRepository>(() => HomeRepositoryImpl(sl()));
   sl.registerLazySingleton<ProfileRepository>(
       () => ProfileRepositoryImpl(sl()));
 }
@@ -96,19 +90,13 @@ Future<void> _injectBloc() async {
     () => SignInBloc(signInUseCase: sl<SignInUseCase>()),
   );
   sl.registerFactory<HomeBloc>(
-    () => HomeBloc(
-        getBrandUseCase: sl(),
-        getCategoryUseCase: sl(),
-        getExploreRewardsUseCase: sl(),
-        getMyRewardsUseCase: sl(),
-        getProfileUseCase: sl()),
+    () => HomeBloc(getCategoryUseCase: sl(), getProfileUseCase: sl()),
   );
   sl.registerFactory<ProfileBloc>(() => ProfileBloc(sl(), sl(), sl(), sl()));
 }
 
 Future<void> _injectUseCases() async {
   sl.registerLazySingleton<SignInUseCase>(() => SignInUseCase(sl()));
-  sl.registerLazySingleton<GetBrandUseCase>(() => GetBrandUseCase(sl()));
   sl.registerLazySingleton<GetCategoryUseCase>(() => GetCategoryUseCase(sl()));
   sl.registerLazySingleton<GetProfileUseCase>(() => GetProfileUseCase(sl()));
   sl.registerLazySingleton<UpdateProfileUseCase>(
@@ -116,10 +104,6 @@ Future<void> _injectUseCases() async {
   sl.registerLazySingleton<ChangeUserAvatarUseCase>(
       () => ChangeUserAvatarUseCase(sl()));
   sl.registerLazySingleton<SignOutUseCase>(() => SignOutUseCase(sl()));
-  sl.registerLazySingleton<GetExploreRewardsUseCase>(
-      () => GetExploreRewardsUseCase(sl()));
-  sl.registerLazySingleton<GetMyRewardsUseCase>(
-      () => GetMyRewardsUseCase(sl()));
 }
 
 Future<void> resetSignOutSession() async {
@@ -140,7 +124,7 @@ Future<void> initHiveDB() async {
   } else if (Platform.isIOS) {
     dir = await getApplicationDocumentsDirectory();
   }
-  var rootPath = Directory(join(dir!.path, "PointSuite")).path;
+  var rootPath = Directory(join(dir!.path, "ArkCalc")).path;
   Hive.init(rootPath);
   Hive.registerAdapter(BrandHiveAdapter(), override: true);
   Hive.registerAdapter(CategoryHiveAdapter(), override: true);

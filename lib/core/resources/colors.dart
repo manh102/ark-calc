@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class SoloerColors {
   static const Color primary = Color(0xff1E1E1E);
-  static const Color primaryDark = Color(0xFF761818);
+  static const Color primaryDark = Color(0xFF0A0E21);
   static const Color primaryLight = Color(0xFFDC7E7E);
   static const Color onPrimary = Color(0xffffffff);
   static const Color primaryContainer = Color(0xffb0b2c0);

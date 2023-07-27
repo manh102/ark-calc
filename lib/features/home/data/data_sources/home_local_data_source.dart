@@ -7,23 +7,13 @@ import '../models/brand_model.dart';
 import '../models/category_model.dart';
 
 abstract class HomeLocalDataSource {
-  Future<List<BrandModel>> getLocalBrands();
-
   Future<List<CategoryModel>> getLocalCategories();
 
-  Future<void> saveBrands(List<BrandHive> brands);
-
   Future<void> saveCategories(List<CategoryHive> categories);
+  Future<void> saveOperators(List<CategoryHive> categories);
 }
 
 class HomeLocalDataSourceImpl extends HomeLocalDataSource {
-  @override
-  Future<void> saveBrands(List<BrandHive> brands) async {
-    final box =
-        await HiveBoxes.instance.getBox<BrandHive>(HiveBoxConst.BOX_BRAND);
-    await box.putAll(brands.asMap());
-  }
-
   @override
   Future<void> saveCategories(List<CategoryHive> categories) async {
     final box = await HiveBoxes.instance
@@ -32,10 +22,10 @@ class HomeLocalDataSourceImpl extends HomeLocalDataSource {
   }
 
   @override
-  Future<List<BrandModel>> getLocalBrands() async {
-    final box =
-        await HiveBoxes.instance.getBox<BrandHive>(HiveBoxConst.BOX_BRAND);
-    return box.values.mapList((source) => BrandModel.fromHive(source));
+  Future<void> saveOperators(List<CategoryHive> categories) async {
+    final box = await HiveBoxes.instance
+        .getBox<CategoryHive>(HiveBoxConst.BOX_OPERATOR);
+    await box.putAll(categories.asMap());
   }
 
   @override

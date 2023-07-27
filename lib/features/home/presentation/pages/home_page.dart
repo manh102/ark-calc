@@ -1,20 +1,19 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_ark_calc/core/util/recruit_utilities.dart';
 
 import '../../../../core/resources/resources.dart';
 import '../../../../core/util/core_util.dart';
 import '../../../../core/widgets/dialog/dialog.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../app_bloc/app_bloc.dart';
-import '../../../profile/data/models/user_profile_model.dart';
-import '../../data/models/reward_model.dart';
+import '../../data/models/combine_result_model.dart';
+import '../../data/models/operator.dart';
 import '../bloc/home_bloc.dart';
 import '../bloc/home_event.dart';
 import '../bloc/home_state.dart';
+import '../widgets/home_widgets_mixin.dart';
 
 class HomePage extends StatefulWidget {
   final bool isLoggedIn;
@@ -27,23 +26,23 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with TemplatePageMixin {
+class _HomePageState extends State<HomePage>
+    with TemplatePageMixin, HomeWidgetsMixin {
   late AppBloc appBloc;
   late HomeBloc homeBloc;
   bool firstInit = true;
-
-  UserProfileModel? userProfileModel;
-  List<RewardModel> exploreRewards = [];
-  List<RewardModel> exploreMembershipRewards = [];
-  List<RewardModel>? myRewards;
-  List<RewardModel>? myMembershipRewards;
-
+  // Recruit variables
+  List<List<String>> totalList = [];
+  List<Operator> listOperator1 = [];
+  List<Operator> listOperator2 = [];
+  List<Operator> listOperator3 = [];
   List<String> selectedTag = [];
 
-  final ButtonStyle enableStyle =
-      ElevatedButton.styleFrom(backgroundColor: CupertinoColors.activeBlue);
-  final ButtonStyle disableStyle =
-      ElevatedButton.styleFrom(backgroundColor: CupertinoColors.inactiveGray);
+  List<String> operatorTagDetail = [];
+  Operator? selectedOperator;
+
+  RecruitCombineModel? combineResult;
+  RecruitUtils recruitCalculate = RecruitUtils();
 
   @override
   void initState() {
@@ -81,415 +80,55 @@ class _HomePageState extends State<HomePage> with TemplatePageMixin {
         }
 
         if (state is Loaded) {
-          userProfileModel = state.userProfileModel;
-          exploreRewards = state.exploreRewards;
-          exploreMembershipRewards = state.exploreMembershipRewards;
-          myRewards = state.myRewards;
-          myMembershipRewards = state.myMembershipRewards;
-
           if (firstInit) {
-            homeBloc
-              ..add(GetBrandEvent())
-              ..add(GetCategoriesEvent())
-              ..add(HomeIdleEvent());
+            /// TODO
           }
 
           firstInit = false;
         }
 
         return wrapInScrollableTemplatePage(
-          backgroundColor: SoloerColors.background,
+          backgroundColor: SoloerColors.primaryDark,
           [
-            _buildTagTable(),
+            buildTagTable(selectedTag, onPressed: (String tagName) {
+              addTag(tagName);
+            }),
+            _buildClearButton(),
+            buildResultTable(),
           ],
         );
       },
     );
   }
 
-  Widget _buildTagTable() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Table(
-          border: TableBorder.all(
-              color: Colors.white30, width: 1, style: BorderStyle.solid),
-          columnWidths: {
-            0: FractionColumnWidth(.1),
-            1: FractionColumnWidth(.6)
-          },
-          children: [
-            // Row 1
-            TableRow(children: [
-              TableCell(
-                verticalAlignment: TableCellVerticalAlignment.middle,
-                child: Center(
-                  child: Text(
-                    'Qualification',
-                    style: PSStyle.kRecruitTitle,
-                  ),
-                ),
-              ),
-              TableCell(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 5.0),
-                  child: Wrap(
-                    spacing: 1.0,
-                    children: <Widget>[
-                      ElevatedButton(
-                        style: selectedTag.contains("starter")
-                            ? enableStyle
-                            : disableStyle,
-                        child: const Text('Starter'),
-                        onPressed: () {
-                          print('Tapped on Starter Button');
-                          addTag("starter");
-                        },
-                      ),
-                      ElevatedButton(
-                        style: selectedTag.contains("seniorOperator")
-                            ? enableStyle
-                            : disableStyle,
-                        child: const Text('Senior Operator'),
-                        onPressed: () {
-                          print('Tapped on Senior Operator Button');
-                          addTag("seniorOperator");
-                        },
-                      ),
-                      ElevatedButton(
-                        style: selectedTag.contains("topOperator")
-                            ? enableStyle
-                            : disableStyle,
-                        child: const Text('Top Operator'),
-                        onPressed: () {
-                          print('Tapped on Top Operator Button');
-                          addTag("topOperator");
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ]),
-            // Row 2
-            TableRow(children: [
-              TableCell(
-                verticalAlignment: TableCellVerticalAlignment.middle,
-                child: Center(
-                  child: Text(
-                    'Position',
-                    style: PSStyle.kRecruitTitle,
-                  ),
-                ),
-              ),
-              TableCell(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 5.0),
-                  child: Wrap(
-                    spacing: 1.0,
-                    children: <Widget>[
-                      ElevatedButton(
-                        style: selectedTag.contains("melee")
-                            ? enableStyle
-                            : disableStyle,
-                        child: const Text('Melee'),
-                        onPressed: () {
-                          print('Tapped on Melee Button');
-                          addTag("melee");
-                        },
-                      ),
-                      ElevatedButton(
-                        style: selectedTag.contains("ranged")
-                            ? enableStyle
-                            : disableStyle,
-                        child: const Text('Ranged'),
-                        onPressed: () {
-                          print('Tapped on Ranged Button');
-                          addTag("ranged");
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ]),
-            // Row 3
-            TableRow(children: [
-              TableCell(
-                verticalAlignment: TableCellVerticalAlignment.middle,
-                child: Center(
-                  child: Text(
-                    'Class',
-                    style: PSStyle.kRecruitTitle,
-                  ),
-                ),
-              ),
-              TableCell(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 5.0),
-                  child: Wrap(
-                    spacing: 1.0,
-                    children: <Widget>[
-                      ElevatedButton(
-                        style: selectedTag.contains("guard")
-                            ? enableStyle
-                            : disableStyle,
-                        child: const Text('Guard'),
-                        onPressed: () {
-                          print('Tapped on Guard Button');
-                          addTag("guard");
-                        },
-                      ),
-                      ElevatedButton(
-                        style: selectedTag.contains("medic")
-                            ? enableStyle
-                            : disableStyle,
-                        child: const Text('Medic'),
-                        onPressed: () {
-                          print('Tapped on Medic Button');
-                          addTag("medic");
-                        },
-                      ),
-                      ElevatedButton(
-                        style: selectedTag.contains("vanguard")
-                            ? enableStyle
-                            : disableStyle,
-                        child: const Text('Vanguard'),
-                        onPressed: () {
-                          print('Tapped on Vanguard Button');
-                          addTag("vanguard");
-                        },
-                      ),
-                      ElevatedButton(
-                        style: selectedTag.contains("caster")
-                            ? enableStyle
-                            : disableStyle,
-                        child: const Text('Caster'),
-                        onPressed: () {
-                          print('Tapped on Caster Button');
-                          addTag("caster");
-                        },
-                      ),
-                      ElevatedButton(
-                        style: selectedTag.contains("sniper")
-                            ? enableStyle
-                            : disableStyle,
-                        child: const Text('Sniper'),
-                        onPressed: () {
-                          print('Tapped on Sniper Button');
-                          addTag("sniper");
-                        },
-                      ),
-                      ElevatedButton(
-                        style: selectedTag.contains("defender")
-                            ? enableStyle
-                            : disableStyle,
-                        child: const Text('Defender'),
-                        onPressed: () {
-                          print('Tapped son Defender Button');
-                          addTag("defender");
-                        },
-                      ),
-                      ElevatedButton(
-                        style: selectedTag.contains("supporter")
-                            ? enableStyle
-                            : disableStyle,
-                        child: const Text('Supporter'),
-                        onPressed: () {
-                          print('Tapped on Supporter Button');
-                          addTag("supporter");
-                        },
-                      ),
-                      ElevatedButton(
-                        style: selectedTag.contains("specialist")
-                            ? enableStyle
-                            : disableStyle,
-                        child: const Text('Specialist'),
-                        onPressed: () {
-                          print('Tapped on Specialist Button');
-                          addTag("specialist");
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ]),
-            // Row 4
-            TableRow(children: [
-              TableCell(
-                verticalAlignment: TableCellVerticalAlignment.middle,
-                child: Center(
-                  child: Text(
-                    'Affix',
-                    style: PSStyle.kRecruitTitle,
-                  ),
-                ),
-              ),
-              TableCell(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 5.0),
-                  child: Wrap(
-                    spacing: 1.0,
-                    children: <Widget>[
-                      ElevatedButton(
-                        style: selectedTag.contains("healing")
-                            ? enableStyle
-                            : disableStyle,
-                        child: const Text('Healing'),
-                        onPressed: () {
-                          print('Tapped on Healing Button');
-                          addTag("healing");
-                        },
-                      ),
-                      ElevatedButton(
-                        style: selectedTag.contains("support")
-                            ? enableStyle
-                            : disableStyle,
-                        child: const Text('Support'),
-                        onPressed: () {
-                          print('Tapped on Support Button');
-                          addTag("support");
-                        },
-                      ),
-                      ElevatedButton(
-                        style: selectedTag.contains("dPS")
-                            ? enableStyle
-                            : disableStyle,
-                        child: const Text('DPS'),
-                        onPressed: () {
-                          print('Tapped on DPS Button');
-                          addTag("dPS");
-                        },
-                      ),
-                      ElevatedButton(
-                        style: selectedTag.contains("aOE")
-                            ? enableStyle
-                            : disableStyle,
-                        child: const Text('AOE'),
-                        onPressed: () {
-                          print('Tapped on AOE Button');
-                          addTag("aOE");
-                        },
-                      ),
-                      ElevatedButton(
-                        style: selectedTag.contains("slow")
-                            ? enableStyle
-                            : disableStyle,
-                        child: const Text('Slow'),
-                        onPressed: () {
-                          print('Tapped on Slow Button');
-                          addTag("slow");
-                        },
-                      ),
-                      ElevatedButton(
-                        style: selectedTag.contains("survival")
-                            ? enableStyle
-                            : disableStyle,
-                        child: const Text('Survival'),
-                        onPressed: () {
-                          print('Tapped on Survival Button');
-                          addTag("survival");
-                        },
-                      ),
-                      ElevatedButton(
-                        style: selectedTag.contains("defense")
-                            ? enableStyle
-                            : disableStyle,
-                        child: const Text('Defense'),
-                        onPressed: () {
-                          print('Tapped on Defense Button');
-                          addTag("defense");
-                        },
-                      ),
-                      ElevatedButton(
-                        style: selectedTag.contains("debuff")
-                            ? enableStyle
-                            : disableStyle,
-                        child: const Text('Debuff'),
-                        onPressed: () {
-                          print('Tapped on Debuff Button');
-                          addTag("debuff");
-                        },
-                      ),
-                      ElevatedButton(
-                        style: selectedTag.contains("shift")
-                            ? enableStyle
-                            : disableStyle,
-                        child: const Text('Shift'),
-                        onPressed: () {
-                          print('Tapped on Shift Button');
-                          addTag("shift");
-                        },
-                      ),
-                      ElevatedButton(
-                        style: selectedTag.contains("crowdControl")
-                            ? enableStyle
-                            : disableStyle,
-                        child: const Text('Crowd Control'),
-                        onPressed: () {
-                          print('Tapped on Crowd Control Button');
-                          addTag("crowdControl");
-                        },
-                      ),
-                      ElevatedButton(
-                        style: selectedTag.contains("nuker")
-                            ? enableStyle
-                            : disableStyle,
-                        child: const Text('Nuker'),
-                        onPressed: () {
-                          print('Tapped on Nuker Button');
-                          addTag("nuker");
-                        },
-                      ),
-                      ElevatedButton(
-                        style: selectedTag.contains("summon")
-                            ? enableStyle
-                            : disableStyle,
-                        child: const Text('Summon'),
-                        onPressed: () {
-                          print('Tapped on Summon Button');
-                          addTag("summon");
-                        },
-                      ),
-                      ElevatedButton(
-                        style: selectedTag.contains("fastRedeploy")
-                            ? enableStyle
-                            : disableStyle,
-                        child: const Text('Fast-Redeploy'),
-                        onPressed: () {
-                          print('Tapped on Fast-Redeploy Button');
-                          addTag("fastRedeploy");
-                        },
-                      ),
-                      ElevatedButton(
-                        style: selectedTag.contains("dPRecovery")
-                            ? enableStyle
-                            : disableStyle,
-                        child: const Text('DP-Recovery'),
-                        onPressed: () {
-                          print('Tapped on DP-Recovery Button');
-                          addTag("dPRecovery");
-                        },
-                      ),
-                      ElevatedButton(
-                        style: selectedTag.contains("robot")
-                            ? enableStyle
-                            : disableStyle,
-                        child: const Text('Robot'),
-                        onPressed: () {
-                          print('Tapped on Robot Button');
-                          addTag("robot");
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ]),
-          ],
+  Widget _buildClearButton() {
+    return ElevatedButton(
+      child: Container(
+        height: 30.0,
+        width: double.infinity,
+        color: Colors.redAccent,
+        child: Center(
+          child: Text(
+            "Clear all tags",
+            textAlign: TextAlign.center,
+          ),
         ),
-      ],
+      ),
+      onPressed: () {
+        print("tapped on flat button");
+        // setState(() {
+        //   selectedTag = [];
+        //   listOperator1 = [];
+        //   listOperator2 = [];
+        //   listOperator3 = [];
+        //   selectedOperator = null;
+        //   operatorTagDetail = [];
+        //   if (combineResult != null) {
+        //     combineResult.combineTagList = [];
+        //     combineResult.operatorList = [];
+        //   }
+        // });
+      },
     );
   }
 
@@ -510,15 +149,75 @@ class _HomePageState extends State<HomePage> with TemplatePageMixin {
       }
     }
 
-    //resetOPList();
+    resetOPList();
 
     // reload operator list
-    // if (selectedTag.length > 0) {
-    //   _searchOperators(selectedTag);
-    // } else {
-    //   setState(() {
-    //     resetOPList();
-    //   });
-    // }
+    if (selectedTag.length > 0) {
+      _searchOperators(selectedTag);
+    } else {
+      setState(() {
+        resetOPList();
+      });
+    }
+  }
+
+  resetOPList() {
+    listOperator1 = [];
+    listOperator2 = [];
+    listOperator3 = [];
+    if (combineResult != null) {
+      combineResult?.combineTagList = [];
+      combineResult?.operatorList = [];
+    }
+  }
+
+  _searchOperators(List<String> tagList) async {
+    print('get OP by tag');
+    print(tagList);
+
+    for (var i = 0; i < tagList.length; i++) {
+      List<Operator> result = [];
+
+      /// TODO
+      // final operators = await _operatorRepository.getOperatorsByTag(tagList[i]);
+      // for (final operator in operators) {
+      //   result.add(operator);
+      //   //print("OP name: " + operator.name + ", ID:" + operator.id.toString());
+      // }
+      if (i == 0) {
+        setState(() {
+          listOperator1 = result;
+        });
+      } else if (i == 1) {
+        setState(() {
+          listOperator2 = result;
+        });
+      } else {
+        setState(() {
+          listOperator3 = result;
+        });
+      }
+    }
+
+    // find intersection list
+    combineResult = recruitCalculate.findIntersectionList(
+        list1: listOperator1,
+        list2: listOperator2,
+        list3: listOperator3,
+        tagList: selectedTag);
+  }
+
+  _getOperatorTag(String name) async {
+    print('Get operator by name');
+    selectedOperator = null;
+    operatorTagDetail = [];
+    List<String> tagList = [];
+    // final operator = await _operatorRepository.getOperator(name);
+    // setState(() {
+    //   selectedOperator = operator;
+    //   if (selectedOperator != null) {
+    //     operatorTagDetail = selectedOperator!.getTag();
+    //   }
+    // });
   }
 }

@@ -96,4 +96,9 @@ class PSStyle {
     fontSize: 15.0,
     color: Color(0xFF8D8E98),
   );
+
+  static TextStyle kLabelTextStyle = TextStyle(
+    fontSize: 18.0,
+    color: Color(0xFF8D8E98),
+  );
 }

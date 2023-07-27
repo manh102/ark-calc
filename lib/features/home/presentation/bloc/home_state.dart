@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 
 import '../../../profile/data/models/user_profile_model.dart';
-import '../../data/models/reward_model.dart';
 
 abstract class HomeState extends Equatable {
   const HomeState();
@@ -28,26 +27,14 @@ class Error extends HomeState {
 
 class Loaded extends HomeState {
   final UserProfileModel? userProfileModel;
-  final List<RewardModel> exploreRewards;
-  final List<RewardModel> exploreMembershipRewards;
-  final List<RewardModel>? myRewards;
-  final List<RewardModel>? myMembershipRewards;
 
   const Loaded({
     this.userProfileModel,
-    required this.exploreRewards,
-    required this.exploreMembershipRewards,
-    this.myRewards,
-    this.myMembershipRewards,
   });
 
   @override
   List<Object?> get props => [
         userProfileModel,
-        exploreRewards,
-        exploreMembershipRewards,
-        myRewards,
-        myMembershipRewards
       ];
 }
 
